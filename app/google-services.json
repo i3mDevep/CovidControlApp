@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "855483457097",
+    "firebase_url": "https://coronavirus-control.firebaseio.com",
+    "project_id": "coronavirus-control",
+    "storage_bucket": "coronavirus-control.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855483457097:android:7245080d388a51a1e4a998",
+        "android_client_info": {
+          "package_name": "com.ardobot.scanqr.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855483457097-ci062tsud8j14g93qanih8o3tqc5086q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQrO8DuinHKKBBTUWrT2rO6ekWZoD3lVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855483457097-ci062tsud8j14g93qanih8o3tqc5086q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855483457097:android:bc196014b6e793a8e4a998",
+        "android_client_info": {
+          "package_name": "com.example.ardocontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855483457097-ci062tsud8j14g93qanih8o3tqc5086q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQrO8DuinHKKBBTUWrT2rO6ekWZoD3lVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855483457097-ci062tsud8j14g93qanih8o3tqc5086q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855483457097:android:fdea1fc4a48586a4e4a998",
+        "android_client_info": {
+          "package_name": "com.example.shubham.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855483457097-ci062tsud8j14g93qanih8o3tqc5086q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQrO8DuinHKKBBTUWrT2rO6ekWZoD3lVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855483457097-ci062tsud8j14g93qanih8o3tqc5086q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

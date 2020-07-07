@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Scan QR</string>
+    <string name="hint_username">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="text_button_login">Login</string>
+    <string name="text_main_menu">Seleccione una opción</string>
+    <string name="button_worker">Empleados</string>
+    <string name="button_users">Usuarios</string>
+    <string name="button_loggout">Cerrar Sesion</string>
+    <string name="text_loading">Espere un momento por favor...</string>
+    <string name="registertitle">Datos Personales</string>
+    <string name="hint_name_scan">Nombre</string>
+    <string name="hint_lastname_scan">Apellido</string>
+    <string name="hint_identification_scan">Identificacion</string>
+    <string name="hint_celphone_scan">Celular</string>
+    <string name="hint_gender_scan">Genero</string>
+    <string name="hint_temperature_scan">Seleccion Temperatura</string>
+</resources>

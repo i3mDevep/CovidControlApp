@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#0f4c81</color>
+    <color name="btnLogin">#fdc317</color>
+    <color name="primaryLightColor">#C5CAE9</color>
+    <color name="primaryDarkColor">#004876</color>
+    <color name="primaryTextColor">#212121</color>
+    <color name="colorAccent">#448AFF</color>
+    <color name="editColorWhite">#FFFFFF</color>
+</resources>

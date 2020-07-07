@@ -1,0 +1,40 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="RaisedButtonDarkLogin" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/btnLogin</item>
+        <item name="android:colorActivatedHighlight">@color/primaryColor</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:bottomRightRadius">@dimen/radius_button_login</item>
+        <item name="android:bottomLeftRadius">@dimen/radius_button_login</item>
+        <item name="android:topRightRadius">@dimen/radius_button_login</item>
+        <item name="android:topLeftRadius">@dimen/radius_button_login</item>
+    </style>
+    <style name="RaisedButtonDark" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/primaryColor</item>
+        <item name="android:colorActivatedHighlight">@color/primaryColor</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:bottomRightRadius">@dimen/radius_button_login</item>
+        <item name="android:bottomLeftRadius">@dimen/radius_button_login</item>
+        <item name="android:topRightRadius">@dimen/radius_button_login</item>
+        <item name="android:topLeftRadius">@dimen/radius_button_login</item>
+    </style>
+
+    <style name="myEditTextWhite" parent="Widget.Design.TextInputLayout">
+        <!-- reference our hint & error styles -->
+        <item name="hintTextAppearance">@style/myEditTextWhite</item>
+        <item name="android:textColorPrimary">@color/editColorWhite</item>
+        <item name="errorTextAppearance">@style/myEditTextWhite</item>
+        <item name="android:textColor">@color/editColorWhite</item>
+        <item name="android:textColorHint">@color/editColorWhite</item>
+        <item name="colorControlNormal">@color/editColorWhite</item>
+        <item name="colorControlActivated">@color/editColorWhite</item>
+        <item name="colorControlHighlight">@color/editColorWhite</item>
+        <item name="android:textSize">@dimen/edit_login_text_size</item>
+    </style>
+</resources>

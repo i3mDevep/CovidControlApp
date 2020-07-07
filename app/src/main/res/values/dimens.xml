@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="edit_login_text_size">17sp</dimen>
+    <dimen name="radius_button_login">20dp</dimen>
+    <dimen name="component_label_horizontal_margin">50sp</dimen>
+    <dimen name="text_title_scanPeople">20sp</dimen>
+    <dimen name="keyline_4">20dp</dimen>
+    <dimen name="cardview_scan_margintop">20dp</dimen>
+</resources>
