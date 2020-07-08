@@ -4,6 +4,8 @@
     <dimen name="radius_button_login">20dp</dimen>
     <dimen name="component_label_horizontal_margin">50sp</dimen>
     <dimen name="text_title_scanPeople">20sp</dimen>
-    <dimen name="keyline_4">20dp</dimen>
-    <dimen name="cardview_scan_margintop">20dp</dimen>
+    <dimen name="keyline_4">10dp</dimen>
+    <dimen name="cardview_scan_margintop">40dp</dimen>
+    <dimen name="lector_width">340dp</dimen>
+    <dimen name="lector_heigh">120dp</dimen>
 </resources>

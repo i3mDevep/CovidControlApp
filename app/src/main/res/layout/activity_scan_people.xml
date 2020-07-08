@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryDarkColor"
     tools:context=".scanPeople.view.ScanPeopleActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,191 +20,208 @@
             app:layout_constraintStart_toStartOf="parent"
             android:theme="@style/Theme.MaterialComponents.Light"
             >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ardobot_logo"
+                android:padding="5dp"
+                />
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"
+                android:paddingTop="60dp"
+                android:fillViewport="true"
                 >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <TextView
-        android:id="@+id/card_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/keyline_4"
-        android:firstBaselineToTopHeight="40dp"
-        android:textSize="@dimen/text_title_scanPeople"
-        android:text="@string/registertitle"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textColor="@color/primaryTextColor"
-        app:layout_constraintStart_toStartOf="parent"
-        />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cname"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/primaryTextColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintTop_toBottomOf="@+id/card_title">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/cname"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        app:layout_constraintTop_toBottomOf="@+id/card_title">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_name_scan"
-            android:inputType="text" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_name_scan"
+                            android:inputType="text" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/clastname"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cname">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/cdocument"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:boxStrokeColor="@color/colorAccent"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/clastname">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/lastname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_lastname_scan"
-            android:inputType="text" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_identification"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_identification_scan"
+                            android:inputType="number" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cdocument"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/colorAccent"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clastname">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ctelphone"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:boxStrokeColor="@color/colorAccent"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cdocument">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/document"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_identification_scan"
-            android:inputType="number" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_cellphone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_celphone_scan"
+                            android:inputType="number" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ctelphone"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/colorAccent"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cdocument">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/cgender"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:boxStrokeColor="@color/colorAccent"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ctelphone">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/telphone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_celphone_scan"
-            android:inputType="number" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_gender_scan"
+                            android:inputType="text" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cgender"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/colorAccent"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctelphone">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_gender_scan"
-            android:inputType="number" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/caddrees"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/colorAccent"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cgender">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:boxStrokeColor="@color/colorAccent"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cgender">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/addrees"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Dirección"
-            android:inputType="number" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Dirección"
+                            android:inputType="text" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cquest1"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:boxStrokeColor="@color/colorAccent"
-        app:endIconMode="dropdown_menu"
-        android:paddingStart="@dimen/keyline_4"
-        android:paddingEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caddrees">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/cquest1"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:boxStrokeColor="@color/colorAccent"
+                        app:endIconMode="dropdown_menu"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/caddrees">
 
-        <AutoCompleteTextView
-            android:id="@+id/dropTemperatura"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_temperature_scan"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+                        <AutoCompleteTextView
+                            android:id="@+id/dropTemperature"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_temperature_scan"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <Button
+                        android:id="@+id/btn_read_doc"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/primaryDarkColor"
+                        android:layout_height="41dp"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/btn_scan_get"
+                        android:onClick="readDoc"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cquest1" />
+                    <Button
+                        android:id="@+id/btn_cancel"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="41dp"
+                        android:textColor="@color/primaryDarkColor"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/btn_scan_cancel"
+                        android:onClick="cancel"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cquest1" />
+                    <Button
+                        android:id="@+id/btn_send_doc"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="41dp"
+                        android:textColor="@color/primaryDarkColor"
+                        android:paddingStart="@dimen/keyline_4"
+                        android:paddingEnd="@dimen/keyline_4"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/btn_scan_send"
+                        android:onClick="sendInfo"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cquest1" />
+                </LinearLayout>
 
-</LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                </LinearLayout>
+            </ScrollView>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

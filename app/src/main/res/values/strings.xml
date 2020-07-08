@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Scan QR</string>
+    <string name="app_name">Control de Acceso</string>
     <string name="hint_username">Email</string>
     <string name="hint_password">Password</string>
     <string name="text_button_login">Login</string>
@@ -15,4 +15,9 @@
     <string name="hint_celphone_scan">Celular</string>
     <string name="hint_gender_scan">Genero</string>
     <string name="hint_temperature_scan">Seleccion Temperatura</string>
+    <string name="btn_scan_get">Leer Doc</string>
+    <string name="btn_scan_cancel">Cancelar</string>
+    <string name="btn_scan_send">Enviar</string>
+    <string name="turn_on_flashlight">Enceder Luz</string>
+    <string name="turn_off_flashlight">Apagar Luz</string>
 </resources>
