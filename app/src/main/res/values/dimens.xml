@@ -5,7 +5,9 @@
     <dimen name="component_label_horizontal_margin">50sp</dimen>
     <dimen name="text_title_scanPeople">20sp</dimen>
     <dimen name="keyline_4">10dp</dimen>
-    <dimen name="cardview_scan_margintop">40dp</dimen>
+    <dimen name="cardview_scan_margintop">10dp</dimen>
     <dimen name="lector_width">340dp</dimen>
     <dimen name="lector_heigh">340dp</dimen>
+    <dimen name="height_dropdown_temperature">120dp</dimen>
+    <dimen name="swith_min_width">50dp</dimen>
 </resources>

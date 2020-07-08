@@ -46,6 +46,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:boxBackgroundMode="outline"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/editColorWhite"
                     app:errorEnabled="true"
                     android:theme="@style/myEditTextWhite"
                     >
@@ -62,6 +64,8 @@
                     android:layout_height="wrap_content"
                     app:boxBackgroundMode="outline"
                     app:errorEnabled="true"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/editColorWhite"
                     android:theme="@style/myEditTextWhite"
                     >
                     <com.google.android.material.textfield.TextInputEditText

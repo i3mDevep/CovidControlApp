@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ardobot_logo"
-                android:padding="5dp"
+                android:padding="10dp"
                 />
             <ScrollView
                 android:layout_width="match_parent"
@@ -167,9 +167,22 @@
                             android:id="@+id/dropTemperature"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:dropDownHeight="@dimen/height_dropdown_temperature"
                             android:hint="@string/hint_temperature_scan"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:layout_width="wrap_content"
+                    android:id="@+id/type_action_switch"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:padding="20dp"
+                    android:textColor="@color/cardview_dark_background"
+                    app:switchMinWidth="@dimen/swith_min_width"
+                    android:textOn="@string/swith_type_in"
+                    android:textOff="@string/swith_type_out"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -205,6 +218,7 @@
                         app:layout_constraintTop_toBottomOf="@id/cquest1" />
                     <Button
                         android:id="@+id/btn_send_doc"
+                        android:enabled="false"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="41dp"

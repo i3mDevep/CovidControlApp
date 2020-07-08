@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,17 +17,22 @@ import com.example.ardocontrol.R;
 import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentorImpl;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
 
 public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
 
     private EditText address, name, identification, gender, cellphone, temperature;
     private Button btnsend;
+    private SwitchMaterial selectAction;
     private LoadingScan loadingScan;
     private ArdoApplication ardoApplication;
 
     private ScanActivityPresentor presentor;
+
+    private AutoCompleteTextView completeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +48,25 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
         btnsend = (Button) findViewById(R.id.btn_send_doc);
 
+        completeTextView = (AutoCompleteTextView) findViewById(R.id.dropTemperature);
+
+        selectAction = (SwitchMaterial) findViewById(R.id.type_action_switch);
+
         loadingScan = new LoadingScan(this);
 
         ardoApplication = (ArdoApplication) getApplicationContext();
+
+        double[] items = new double[70];
+        String[] cast_items = new String[69];
+        items[0] = 28.0;
+        for (int i = 1; i < 70; i++ ){
+            items[i] = items[i - 1] + 0.2 ;
+            cast_items[i - 1] = String.format("%.1f",items[i - 1]);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, cast_items);
+        completeTextView.setAdapter(adapter);
 
         presentor = new ScanActivityPresentorImpl(this);
     }
@@ -69,7 +92,8 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
                 .initiateScan();
     }
     public void sendInfo(View view){
-
+        Toast.makeText(getApplicationContext(),"Enviando...",Toast.LENGTH_SHORT).show();
+        presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString());
     }
     public  void cancel(View view){
         Intent intent = new Intent(this, MenuActivity.class);

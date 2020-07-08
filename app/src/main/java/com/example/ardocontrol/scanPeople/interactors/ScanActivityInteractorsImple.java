@@ -5,12 +5,18 @@ import android.util.Log;
 
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -51,8 +57,39 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     }
 
     @Override
-    public void sendDataFirebase(String[] content) {
+    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature) {
+        final Map<String, Object> data = new HashMap<>();
+        String type = action ? "in":"out";
 
+        data.put("action", type);
+        data.put("identification", cc);
+        data.put("time", FieldValue.serverTimestamp());
+        data.put("temperature", temperature);
+
+        db = FirebaseFirestore.getInstance();
+        String ref = "business/" + idCompany + "/subcompanies/" + idSubCompany + "/trakingworker";
+        db.collection(ref)
+                .add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        String ref = "business/" + idCompany + "/trakingworker";
+                        db.collection(ref)
+                                .add(data)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        scanActivityPresentor.successSetDataFirestore();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        scanActivityPresentor.errorSetDataFirestore(e.getMessage());
+                    }
+                });
     }
 
     @Override

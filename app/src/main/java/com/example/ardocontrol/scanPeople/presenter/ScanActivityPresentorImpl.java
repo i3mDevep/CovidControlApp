@@ -29,13 +29,27 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
 
     @Override
     public void processError(String err) {
+        scanPeopleActivityView.disableButtonSend();
         scanPeopleActivityView.errorRead(err);
     }
 
     @Override
     public void successGetDataFirebase(String[] data) {
         scanPeopleActivityView.setDataFirebase(data);
+        scanPeopleActivityView.enableButtonSend();
         scanPeopleActivityView.showProgressBar(false);
+    }
+
+    @Override
+    public void successSetDataFirestore() {
+        scanPeopleActivityView.showProgressBar(false);
+        scanPeopleActivityView.clearEditText();
+    }
+
+    @Override
+    public void errorSetDataFirestore(String err) {
+        scanPeopleActivityView.showProgressBar(false);
+        scanPeopleActivityView.errorRead(err);
     }
 
     @Override
@@ -43,5 +57,11 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
         scanPeopleActivityView.clearEditText();
         scanPeopleActivityView.showProgressBar(false);
         scanPeopleActivityView.errorRead(err);
+    }
+
+    @Override
+    public void sendTrackingWorker(String cc, boolean action, String temperature) {
+        String[] ids = scanPeopleActivityView.getIds();
+        scanActivityInteractors.sendDataFirebase(cc, action, ids[0], ids[1], temperature);
     }
 }
