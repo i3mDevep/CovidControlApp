@@ -92,7 +92,6 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
                 .initiateScan();
     }
     public void sendInfo(View view){
-        Toast.makeText(getApplicationContext(),"Enviando...",Toast.LENGTH_SHORT).show();
         presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString());
     }
     public  void cancel(View view){
@@ -146,6 +145,11 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         }else {
             loadingScan.dismissDialog();
         }
+    }
+
+    @Override
+    public void successSendDataFirestore(String msg) {
+        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override

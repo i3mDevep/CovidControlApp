@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:elevation="10dp"
         app:srcCompat="@drawable/ardobot_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

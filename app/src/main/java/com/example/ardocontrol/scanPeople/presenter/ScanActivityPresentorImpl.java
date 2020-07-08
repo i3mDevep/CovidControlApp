@@ -43,6 +43,7 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
     @Override
     public void successSetDataFirestore() {
         scanPeopleActivityView.showProgressBar(false);
+        scanPeopleActivityView.successSendDataFirestore("Tus datos han sido correctamente almacenados ;) ");
         scanPeopleActivityView.clearEditText();
     }
 
@@ -63,5 +64,6 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
     public void sendTrackingWorker(String cc, boolean action, String temperature) {
         String[] ids = scanPeopleActivityView.getIds();
         scanActivityInteractors.sendDataFirebase(cc, action, ids[0], ids[1], temperature);
+        scanPeopleActivityView.showProgressBar(true);
     }
 }

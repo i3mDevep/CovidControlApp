@@ -8,5 +8,6 @@ public interface ScanPeopleActivityView {
     void clearEditText();
     void setDataFirebase(String[] data);
     void showProgressBar(boolean status);
+    void successSendDataFirestore(String msg);
     String[] getIds();
 }
