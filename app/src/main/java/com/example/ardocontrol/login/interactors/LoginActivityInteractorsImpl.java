@@ -3,12 +3,15 @@ package com.example.ardocontrol.login.interactors;
 import android.app.Activity;
 import android.util.Log;
 
+import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.login.presenter.LoginActivityPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import androidx.annotation.NonNull;
 
@@ -24,12 +27,25 @@ public class LoginActivityInteractorsImpl implements LoginActivityInteractors {
     private  void AuthStateListenerOnChanged(){
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser != null){
-                    loginActivityPresenter.LoginSuccess("Bienvenido!!!");
-                }else {
-                    loginActivityPresenter.LoginError("Debes iniciar sesion!!!");
+                    firebaseUser.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                        @Override
+                        public void onSuccess(GetTokenResult getTokenResult) {
+                            try {
+                                boolean isBusines = (boolean) getTokenResult.getClaims().get("business");
+                                loginActivityPresenter.LoginError("No puedes iniciar sesion con el user de una empresa!");
+                                firebaseAuth.signOut();
+                            } catch (Exception e){
+                                String companyID = (String) getTokenResult.getClaims().get("companyId");
+                                String subCompanyId = (String) getTokenResult.getClaims().get("user_id");
+                                loginActivityPresenter.LoginSuccess("Welcome!!!",companyID, subCompanyId);
+                            }
+                        }
+                    });
+                } else {
+                    loginActivityPresenter.LoginError("Sign in");
                 }
             }
         };

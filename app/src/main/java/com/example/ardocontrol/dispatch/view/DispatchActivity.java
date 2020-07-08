@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.R;
 import com.example.ardocontrol.dispatch.presenter.DispatchActivityPresentor;
 import com.example.ardocontrol.dispatch.presenter.DispatchActivityPresentorImpl;
@@ -17,6 +18,7 @@ public class DispatchActivity extends AppCompatActivity implements DispatchActiv
 
     private DispatchActivityPresentor dispatchActivityPresentor;
     private FirebaseAuth firebaseAuth;
+    private  ArdoApplication ardoApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class DispatchActivity extends AppCompatActivity implements DispatchActiv
 
         firebaseAuth = firebaseAuth.getInstance();
 
+        ardoApplication = (ArdoApplication) getApplicationContext();
         dispatchActivityPresentor = new DispatchActivityPresentorImpl(this);
     }
 
@@ -53,7 +56,9 @@ public class DispatchActivity extends AppCompatActivity implements DispatchActiv
     }
 
     @Override
-    public void goMenu() {
+    public void goMenu(String idCompany, String idSubCompany) {
+        ardoApplication.setIdCompany(idCompany);
+        ardoApplication.setIdSubCompany(idSubCompany);
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

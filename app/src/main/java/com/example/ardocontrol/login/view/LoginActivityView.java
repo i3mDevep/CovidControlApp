@@ -7,5 +7,5 @@ public interface LoginActivityView {
     void disableInputs();
     void showProgressBar(boolean status);
     void capturedErrorLogin(String err);
-    void GoAccessPersmission(String msg);
+    void goMenu(String msg, String idCompany, String idSubCompany);
 }

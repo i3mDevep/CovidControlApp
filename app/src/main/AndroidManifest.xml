@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".scanPeople.view.ScannerActivity"></activity>
         <activity
             android:name=".dispatch.view.DispatchActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -23,7 +24,7 @@
         <activity android:name=".menu.view.MenuActivity" />
         <activity
             android:name=".login.view.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

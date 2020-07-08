@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
+import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.login.interactors.LoginActivityInteractors;
 import com.example.ardocontrol.login.interactors.LoginActivityInteractorsImpl;
 import com.example.ardocontrol.login.view.LoginActivityView;
@@ -27,9 +28,9 @@ public class LoginActivityPresenterImpl implements LoginActivityPresenter {
     }
 
     @Override
-    public void LoginSuccess(String msg) {
+    public void LoginSuccess(String msg, String idCompany, String idSubCompany) {
         loginActivityView.enableInputs();
-        loginActivityView.GoAccessPersmission(msg);
+        loginActivityView.goMenu(msg, idCompany, idSubCompany);
         loginActivityView.showProgressBar(false);
     }
 

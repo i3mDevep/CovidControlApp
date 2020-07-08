@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.R;
 import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
@@ -22,6 +23,7 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
     private EditText address, name, identification, gender, cellphone, temperature;
     private Button btnsend;
     private LoadingScan loadingScan;
+    private ArdoApplication ardoApplication;
 
     private ScanActivityPresentor presentor;
 
@@ -41,6 +43,8 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
         loadingScan = new LoadingScan(this);
 
+        ardoApplication = (ArdoApplication) getApplicationContext();
+
         presentor = new ScanActivityPresentorImpl(this);
     }
     @Override
@@ -48,19 +52,21 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null){
-            presentor.processDataRead(result.getContents().toString());
+            if(result.getContents() != null){
+                presentor.processDataRead(result.getContents().toString());
+            }else{
+                Toast.makeText(getApplicationContext(), "Scan canceled!", Toast.LENGTH_LONG).show();
+            }
+
         }else{
             Toast.makeText(getApplicationContext(), "Error this message is null", Toast.LENGTH_LONG).show();
         }
     }
     public void readDoc(View view){
-        IntentIntegrator Intent = new IntentIntegrator(ScanPeopleActivity.this);
-        Intent.setPrompt("Active Scan...");
-        Intent.setOrientationLocked(false);
-        Intent.setBeepEnabled(true);
-        Intent.setCameraId(0);
-        Intent.setBarcodeImageEnabled(false);
-        Intent.initiateScan();
+        new IntentIntegrator(this)
+                .setOrientationLocked(false)
+                .setCaptureActivity(ScannerActivity.class)
+                .initiateScan();
     }
     public void sendInfo(View view){
 
@@ -86,8 +92,8 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
     }
 
     @Override
-    public void successRead(String[] info) {
-
+    public void successRead(String data) {
+        identification.setText(data);
     }
 
     @Override
@@ -99,6 +105,16 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         cellphone.setText("");
         gender.setText("");
     }
+
+    @Override
+    public void setDataFirebase(String[] data) {
+        name.setText(data[0]);
+        cellphone.setText(data[1]);
+        gender.setText(data[2]);
+        address.setText(data[3]);
+        temperature.setText("");
+    }
+
     @Override
     public void showProgressBar(boolean status) {
         if(status){
@@ -106,5 +122,14 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         }else {
             loadingScan.dismissDialog();
         }
+    }
+
+    @Override
+    public String[] getIds() {
+        String idCompany = ardoApplication.getIdCompany();
+        String idSubCompany = ardoApplication.getIdSubCompany();
+        String cc = identification.getText().toString();
+        String[] ids = new String [] {idCompany, idSubCompany, cc};
+        return ids;
     }
 }

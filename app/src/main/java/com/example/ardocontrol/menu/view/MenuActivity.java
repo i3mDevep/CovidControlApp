@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.R;
 import com.example.ardocontrol.login.view.LoginActivity;
 import com.example.ardocontrol.menu.presenter.MenuActivityPresenter;

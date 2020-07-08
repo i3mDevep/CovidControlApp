@@ -2,6 +2,7 @@ package com.example.ardocontrol.dispatch.presenter;
 
 import android.app.Activity;
 
+import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.dispatch.interactors.DispatchActivityInteractors;
 import com.example.ardocontrol.dispatch.interactors.DispatchActivityInteractorsImpl;
 import com.example.ardocontrol.dispatch.view.DispatchActivityView;
@@ -22,8 +23,8 @@ public class DispatchActivityPresentorImpl implements DispatchActivityPresentor 
     }
 
     @Override
-    public void goMenu() {
-        dispatchActivityView.goMenu();
+    public void goMenu(String idCompany, String idSubCompany) {
+        dispatchActivityView.goMenu(idCompany, idSubCompany);
     }
 
     @Override

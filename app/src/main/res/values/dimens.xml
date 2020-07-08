@@ -7,5 +7,5 @@
     <dimen name="keyline_4">10dp</dimen>
     <dimen name="cardview_scan_margintop">40dp</dimen>
     <dimen name="lector_width">340dp</dimen>
-    <dimen name="lector_heigh">120dp</dimen>
+    <dimen name="lector_heigh">340dp</dimen>
 </resources>

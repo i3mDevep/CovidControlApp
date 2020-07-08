@@ -4,7 +4,9 @@ public interface ScanPeopleActivityView {
     void enableButtonSend();
     void disableButtonSend();
     void errorRead(String err);
-    void successRead(String info[]);
+    void successRead(String data);
     void clearEditText();
+    void setDataFirebase(String[] data);
     void showProgressBar(boolean status);
+    String[] getIds();
 }
