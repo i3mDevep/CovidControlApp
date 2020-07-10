@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -57,7 +58,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     }
 
     @Override
-    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature) {
+    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature, GeoPoint loc) {
         final Map<String, Object> data = new HashMap<>();
         String type = action ? "in":"out";
 
@@ -65,6 +66,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
         data.put("identification", cc);
         data.put("time", FieldValue.serverTimestamp());
         data.put("temperature", temperature);
+        data.put("position",loc);
 
         db = FirebaseFirestore.getInstance();
         String ref = "business/" + idCompany + "/subcompanies/" + idSubCompany + "/trakingworker";

@@ -3,6 +3,7 @@ package com.example.ardocontrol.scanPeople.presenter;
 import com.example.ardocontrol.scanPeople.interactors.ScanActivityInteractors;
 import com.example.ardocontrol.scanPeople.interactors.ScanActivityInteractorsImple;
 import com.example.ardocontrol.scanPeople.view.ScanPeopleActivityView;
+import com.google.firebase.firestore.GeoPoint;
 
 public class ScanActivityPresentorImpl implements ScanActivityPresentor {
 
@@ -61,9 +62,9 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
     }
 
     @Override
-    public void sendTrackingWorker(String cc, boolean action, String temperature) {
+    public void sendTrackingWorker(String cc, boolean action, String temperature, GeoPoint loc) {
         String[] ids = scanPeopleActivityView.getIds();
-        scanActivityInteractors.sendDataFirebase(cc, action, ids[0], ids[1], temperature);
+        scanActivityInteractors.sendDataFirebase(cc, action, ids[0], ids[1], temperature, loc);
         scanPeopleActivityView.showProgressBar(true);
     }
 }

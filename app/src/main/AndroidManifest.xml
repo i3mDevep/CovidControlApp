@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ardocontrol">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <application
         android:name=".ArdoApplication"
         android:allowBackup="true"
@@ -10,7 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".scanPeople.view.ScannerActivity"></activity>
+        <service
+            android:name=".scanPeople.servicio.MyNavigationService"
+            android:exported="false"
+            android:foregroundServiceType="location">
+
+        </service>
+        <activity android:name=".scanPeople.view.ScannerActivity" />
         <activity
             android:name=".dispatch.view.DispatchActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -26,7 +36,5 @@
             android:name=".login.view.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
