@@ -58,6 +58,12 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
 
     @Override
     public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature) {
+
+        if(temperature.equals("")){
+            scanActivityPresentor.errorSetDataFirestore("Selecciona un valor de temperatura!");
+            return;
+        }
+
         final Map<String, Object> data = new HashMap<>();
         String type = action ? "in":"out";
 
