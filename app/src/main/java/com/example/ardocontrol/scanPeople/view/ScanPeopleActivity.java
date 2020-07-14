@@ -1,9 +1,22 @@
 package com.example.ardocontrol.scanPeople.view;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,11 +31,12 @@ import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentorImpl;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 
-public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
+public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView, LocationListener {
 
     private EditText address, name, identification, gender, cellphone, temperature;
     private Button btnsend;
@@ -34,11 +48,123 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
     private AutoCompleteTextView completeTextView;
 
+    private static final int PERMISSION_CODE = 101;
+    String[] permissions_all={Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
+    LocationManager locationManager;
+    boolean isGpsLocation;
+    Location loc;
+    boolean isNetworklocation;
+    ProgressDialog progressDialog;
+
+    private void getLocation() {
+        if(Build.VERSION.SDK_INT>=23){
+            if(checkPermission()){
+                getDeviceLocation();
+            }
+            else{
+                requestPermission();
+            }
+        }
+        else{
+            getDeviceLocation();
+        }
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(ScanPeopleActivity.this,permissions_all,PERMISSION_CODE);
+    }
+
+    private boolean checkPermission() {
+        for(int i=0;i<permissions_all.length;i++){
+            int result= ContextCompat.checkSelfPermission(ScanPeopleActivity.this,permissions_all[i]);
+            if(result== PackageManager.PERMISSION_GRANTED){
+                continue;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void getDeviceLocation() {
+        //now all permission part complete now let's fetch location
+        locationManager=(LocationManager)getSystemService(Service.LOCATION_SERVICE);
+        isGpsLocation=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isNetworklocation=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if(!isGpsLocation && !isNetworklocation){
+            showSettingForLocation();
+            getLastlocation();
+        }
+        else{
+            getFinalLocation();
+        }
+    }
+
+    private void showSettingForLocation() {
+    }
+
+    private void getLastlocation() {
+        if(locationManager!=null) {
+            try {
+                Criteria criteria = new Criteria();
+                String provider = locationManager.getBestProvider(criteria,false);
+                Location location=locationManager.getLastKnownLocation(provider);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_CODE:
+                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    getFinalLocation();
+                }
+                else{
+                    Toast.makeText(this, "Permission Failed", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    private void getFinalLocation() {
+        //one thing i missed in permission let's complete it
+        try{
+            if(isGpsLocation){
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000*60*1,10,ScanPeopleActivity.this);
+                if(locationManager!=null){
+                    loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    if(loc!=null){
+                        //    updateUi(loc);
+                    }
+                }
+            }
+            else if(isNetworklocation){
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000*60*1,10,ScanPeopleActivity.this);
+                if(locationManager!=null){
+                    loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if(loc != null){
+                        //  updateUi(loc);
+                    }
+                }
+            }
+            else{
+                Toast.makeText(this, "Can't Get Location", Toast.LENGTH_SHORT).show();
+            }
+
+        }catch (SecurityException e){
+            Toast.makeText(this, "Can't Get Location", Toast.LENGTH_SHORT).show();
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_people);
-
+        getLocation();
         address = (EditText) findViewById(R.id.text_address);
         name = (EditText) findViewById(R.id.text_name);
         identification = (EditText) findViewById(R.id.text_identification);
@@ -69,6 +195,8 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         completeTextView.setAdapter(adapter);
 
         presentor = new ScanActivityPresentorImpl(this);
+        getLocation();
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -92,7 +220,9 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
                 .initiateScan();
     }
     public void sendInfo(View view){
-        presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString());
+        GeoPoint geo = new GeoPoint( loc.getLatitude(), loc.getLongitude());
+
+        presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString(), geo);
     }
     public  void cancel(View view){
         Intent intent = new Intent(this, MenuActivity.class);
@@ -159,5 +289,25 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         String cc = identification.getText().toString();
         String[] ids = new String [] {idCompany, idSubCompany, cc};
         return ids;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

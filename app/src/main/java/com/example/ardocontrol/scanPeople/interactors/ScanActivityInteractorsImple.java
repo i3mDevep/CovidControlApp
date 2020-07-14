@@ -1,8 +1,5 @@
 package com.example.ardocontrol.scanPeople.interactors;
 
-import android.os.Build;
-import android.util.Log;
-
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -12,8 +9,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,9 +53,9 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     }
 
     @Override
-    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature) {
+    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature, GeoPoint loc) {
 
-        if(temperature.equals("")){
+        if (temperature.equals("")) {
             scanActivityPresentor.errorSetDataFirestore("Selecciona un valor de temperatura!");
             return;
         }
@@ -71,6 +67,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
         data.put("identification", cc);
         data.put("time", FieldValue.serverTimestamp());
         data.put("temperature", temperature);
+        data.put("position",loc);
 
         db = FirebaseFirestore.getInstance();
         String ref = "business/" + idCompany + "/subcompanies/" + idSubCompany + "/trakingworker";

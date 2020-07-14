@@ -1,12 +1,26 @@
 package com.example.ardocontrol.scanPeople.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ardocontrol.R;
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -19,15 +33,16 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     private Button switchFlashlightButton;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        barcodeScannerView = (DecoratedBarcodeView)findViewById(R.id.zxing_barcode_scanner);
+        barcodeScannerView = (DecoratedBarcodeView) findViewById(R.id.zxing_barcode_scanner);
         barcodeScannerView.setTorchListener(this);
 
-        switchFlashlightButton = (Button)findViewById(R.id.switch_flashlight);
+        switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);
 
         // if the device does not have flashlight in its camera,
         // then remove the switch flashlight button...
@@ -38,6 +53,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         capture = new CaptureManager(this, barcodeScannerView);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
+
     }
 
     @Override
@@ -95,4 +111,5 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     public void onTorchOff() {
         switchFlashlightButton.setText(R.string.turn_on_flashlight);
     }
+
 }

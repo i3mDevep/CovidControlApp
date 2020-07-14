@@ -1,5 +1,7 @@
 package com.example.ardocontrol.scanPeople.presenter;
 
+import com.google.firebase.firestore.GeoPoint;
+
 public interface ScanActivityPresentor {
     void processDataRead(String data);
     void processSuccess(String id);
@@ -8,5 +10,5 @@ public interface ScanActivityPresentor {
     void successSetDataFirestore();
     void errorSetDataFirestore(String err);
     void errorGetDataFirebase(String err);
-    void sendTrackingWorker(String cc, boolean action, String temperature);
+    void sendTrackingWorker(String cc, boolean action, String temperature, GeoPoint loc);
 }
