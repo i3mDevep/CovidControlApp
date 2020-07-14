@@ -30,6 +30,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     public void processData(String data) {
         String scanContent = data;
         if (scanContent.indexOf("PubDSK_") != -1) {
+
             String[] OneFilter = scanContent.split("PubDSK_");
             scanContent = OneFilter[1];
             String[] SecondFilter = scanContent.split("[a-zA-Z]");
