@@ -1,18 +1,20 @@
 package com.example.ardocontrol.scanPeople.view;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationListener;
+import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -25,26 +27,59 @@ import com.example.ardocontrol.R;
 import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentorImpl;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 
 public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
 
+    private static final int PERMISSION_FINE_LOCATION = 99;
     private EditText address, name, identification, gender, cellphone, temperature;
     private Button btnsend;
     private SwitchMaterial selectAction;
     private LoadingScan loadingScan;
     private ArdoApplication ardoApplication;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_FINE_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startLocationUpdates();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Esta app requiere permisos  de localizacion para continuar!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
     private ScanActivityPresentor presentor;
 
     private AutoCompleteTextView completeTextView;
 
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
     LocationManager locationManager;
-    Context mContext;
 
 
+    FusedLocationProviderClient fusedLocationProviderClient;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,54 +116,52 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
         presentor = new ScanActivityPresentorImpl(this);
 
-        mContext = this;
-        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                2000,
-                10, locationListenerGPS);
-        isLocationEnabled();
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ScanPeopleActivity.this);
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(30000)
+                .setFastestInterval(5000)
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                Location location = locationResult.getLastLocation();
+                if(location!= null){
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    Toast.makeText(getApplicationContext(),String.valueOf(latitude) + "  real " + String.valueOf(longitude),Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+
 
     }
-    LocationListener locationListenerGPS = new LocationListener() {
-        @Override
-        public void onLocationChanged(android.location.Location location) {
-            double latitude=location.getLatitude();
-            double longitude=location.getLongitude();
-            String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
-            Toast.makeText(mContext,msg,Toast.LENGTH_LONG).show();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isLocationEnabled();
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                null
+                );
+    }
     private void isLocationEnabled() {
 
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
+            AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
             alertDialog.setTitle("Enable Location");
-            alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
+            alertDialog.setMessage("Tu localizacion no esta habilitada, por favor habilitala en configuracion");
             alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -144,23 +177,27 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
             alert.show();
         }
         else{
-            AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
-            alertDialog.setTitle("Confirm Location");
-            alertDialog.setMessage("Your Location is enabled, please enjoy");
-            alertDialog.setNegativeButton("Back to interface",new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
-                }
-            });
-            AlertDialog alert=alertDialog.create();
-            alert.show();
+            updateGps();
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isLocationEnabled();
+    private void updateGps(){
+        if(ActivityCompat.checkSelfPermission(ScanPeopleActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    startLocationUpdates();
+                    if(location!= null){
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        Toast.makeText(getApplicationContext(),String.valueOf(latitude) + " update " + String.valueOf(longitude),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }else {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+            }
+        }
     }
 
     public void readDoc(View view){
@@ -170,7 +207,6 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
                 .initiateScan();
     }
     public void sendInfo(View view){
-       // GeoPoint geo = new GeoPoint( loc.getLatitude(), loc.getLongitude());
 
         presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString(), null);
     }
