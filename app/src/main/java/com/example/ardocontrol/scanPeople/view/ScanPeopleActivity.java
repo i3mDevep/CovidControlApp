@@ -1,20 +1,12 @@
 package com.example.ardocontrol.scanPeople.view;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -27,14 +19,11 @@ import com.example.ardocontrol.R;
 import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentorImpl;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.ardocontrol.scanPeople.utils.CustomeGps;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
@@ -46,40 +35,12 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
     private LoadingScan loadingScan;
     private ArdoApplication ardoApplication;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_FINE_LOCATION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startLocationUpdates();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Esta app requiere permisos  de localizacion para continuar!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
+    private CustomeGps customeGps;
 
     private ScanActivityPresentor presentor;
 
     private AutoCompleteTextView completeTextView;
 
-    LocationRequest locationRequest;
-    LocationCallback locationCallback;
-    LocationManager locationManager;
-
-
-    FusedLocationProviderClient fusedLocationProviderClient;
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,90 +77,48 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
         presentor = new ScanActivityPresentorImpl(this);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ScanPeopleActivity.this);
-
-        locationRequest = new LocationRequest();
-        locationRequest.setInterval(30000)
-                .setFastestInterval(5000)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
-        locationCallback = new LocationCallback() {
-
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                Location location = locationResult.getLastLocation();
-                if(location!= null){
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    Toast.makeText(getApplicationContext(),String.valueOf(latitude) + "  real " + String.valueOf(longitude),Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
-
+        customeGps = new CustomeGps(this);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        isLocationEnabled();
+        customeGps.isLocationEnabled();
     }
-
-    private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-                locationCallback,
-                null
-                );
+    @Override
+    protected void onPause() {
+        super.onPause();
+        customeGps.stopLocationUpdates();
     }
-    private void isLocationEnabled() {
-
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
-            alertDialog.setTitle("Enable Location");
-            alertDialog.setMessage("Tu localizacion no esta habilitada, por favor habilitala en configuracion");
-            alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_FINE_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    customeGps.startLocationUpdates();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Esta app requiere permisos  de localizacion para continuar!", Toast.LENGTH_SHORT).show();
                 }
-            });
-            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
-                }
-            });
-            AlertDialog alert=alertDialog.create();
-            alert.show();
-        }
-        else{
-            updateGps();
+                break;
         }
     }
-    private void updateGps(){
-        if(ActivityCompat.checkSelfPermission(ScanPeopleActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    startLocationUpdates();
-                    if(location!= null){
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        Toast.makeText(getApplicationContext(),String.valueOf(latitude) + " update " + String.valueOf(longitude),Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }else {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null){
+            if(result.getContents() != null){
+                presentor.processDataRead(result.getContents().toString());
+            }else{
+                Toast.makeText(getApplicationContext(), "Scan canceled!", Toast.LENGTH_LONG).show();
             }
+
+        }else{
+            Toast.makeText(getApplicationContext(), "Error this message is null", Toast.LENGTH_LONG).show();
         }
     }
-
     public void readDoc(View view){
         new IntentIntegrator(this)
                 .setOrientationLocked(false)
@@ -207,8 +126,13 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
                 .initiateScan();
     }
     public void sendInfo(View view){
-
-        presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString(), null);
+        Location location = customeGps.getLocation();
+        if(location!= null){
+            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+            presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString(), geoPoint);
+        }else{
+            Toast.makeText(getApplicationContext(), "Pai sino nos da permiso no podemos coger la posicion", Toast.LENGTH_SHORT).show();
+        }
     }
     public  void cancel(View view){
         Intent intent = new Intent(this, MenuActivity.class);
