@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ardocontrol.ArdoApplication;
@@ -36,6 +38,8 @@ import java.util.List;
 public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
 
     private static final int PERMISSION_FINE_LOCATION = 99;
+
+    private TextView textType;
     private EditText address, name, identification, gender, cellphone, temperature;
     private Button btnsend;
     private SwitchMaterial selectAction;
@@ -59,12 +63,23 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         gender = (EditText) findViewById(R.id.text_gender);
         cellphone = (EditText) findViewById(R.id.text_cellphone);
         temperature = (EditText) findViewById(R.id.dropTemperature);
+        textType = (TextView) findViewById(R.id.textViewTypeAction);
 
         btnsend = (Button) findViewById(R.id.btn_send_doc);
 
         completeTextView = (AutoCompleteTextView) findViewById(R.id.dropTemperature);
 
         selectAction = (SwitchMaterial) findViewById(R.id.type_action_switch);
+        selectAction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    textType.setText("Entrada");
+                }else{
+                    textType.setText("Salida");
+                }
+            }
+        });
 
         loadingScan = new LoadingScan(this);
 

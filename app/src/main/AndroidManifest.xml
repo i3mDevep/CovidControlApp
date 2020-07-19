@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ardocontrol">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
     <application
         android:name=".ArdoApplication"
         android:allowBackup="true"
@@ -14,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".scanClients.view.ScanClientMainActivity" android:label="@string/title_scanclietactivity"></activity>
         <activity android:name=".scanPeople.view.ScannerActivity" />
         <activity
             android:name=".dispatch.view.DispatchActivity"
@@ -25,12 +21,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".scanPeople.view.ScanPeopleActivity" android:label="@string/title_scanpeopleactivity" />
-        <activity android:name=".menu.view.MenuActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".scanPeople.view.ScanPeopleActivity"
+            android:label="@string/title_scanpeopleactivity" />
+        <activity
+            android:name=".menu.view.MenuActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".login.view.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 </manifest>

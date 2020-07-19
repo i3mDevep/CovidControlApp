@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryDarkColor"
+    android:background="@drawable/gradientlogin"
     tools:context=".scanPeople.view.ScanPeopleActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -173,17 +173,32 @@
                             android:hint="@string/hint_temperature_scan"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="wrap_content"
-                    android:id="@+id/type_action_switch"
-                    android:layout_height="match_parent"
-                    android:checked="true"
-                    android:padding="20dp"
-                    android:textColor="@color/cardview_dark_background"
-                    app:switchMinWidth="@dimen/swith_min_width"
-                    android:textOn="@string/swith_type_in"
-                    android:textOff="@string/swith_type_out"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="2pt"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:id="@+id/type_action_switch"
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        android:padding="20dp"
+                        android:textColor="@color/cardview_dark_background"
+                        app:switchMinWidth="@dimen/swith_min_width"
+                        android:textOn="@string/swith_type_in"
+                        android:textOff="@string/swith_type_out"
+                        />
+
+                    <TextView
+                        android:id="@+id/textViewTypeAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:text="Entrada"
+                        android:textSize="@dimen/textview_typeaction" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

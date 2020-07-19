@@ -25,4 +25,35 @@
     <string name="swith_type_out">Salida</string>
     <string name="title_scanpeopleactivity">Registro de empleados</string>
     <string name="copyrigth">© 2014 Ardobot Robótica SAS</string>
+
+    <string name="formname">Nombre</string>
+    <string name="formdocument">Cedula</string>
+    <string name="formgender">Genero</string>
+    <string name="quest2"> * ¿Ha presentado alguno de estos síntomas en las últimas 24 horas? </string>
+    <string name="quest3"> * ¿Ha estado en contacto con alguien que presente los síntomas antes mencionados en las últimas 24 horas? </string>
+    <string name="quest4"> * ¿Realizó el lavado o desinfección de las manos antes de ingresar a las instalaciones?</string>
+    <string name="quest5"> * ¿Realizó usted la desinfección correspondiente al llegar a su hogar? </string>
+    <string name="quest6"> * ¿Realizó cambio de la ropa de trabajo tal como se le ha indicado en los protocolos? </string>
+    <string name="quest7"> * ¿Durante las últimas 24 horas ha asistido a algún centro de atención o EPS? </string>
+    <string name="title_scanclietactivity">Registro de clientes</string>
+    <string-array name="quest2_data">
+        <item>Fiebre</item>
+        <item>Tos</item>
+        <item>Dolor de cabeza</item>
+        <item>Dolor de garganta</item>
+        <item>Malestar general</item>
+        <item>Dificultad para respirar</item>
+        <item>Secreciones nasales</item>
+        <item>Diarrea</item>
+        <item>Ausencia de fuerza física</item>
+        <item>No he presentado ninguno de los síntomas mencionados</item>
+    </string-array>
+    <string-array name="bool_data">
+        <item>si</item>
+        <item>no</item>
+    </string-array>
+    <string-array name="gender_data">
+        <item>Mujer</item>
+        <item>Hombre</item>
+    </string-array>
 </resources>

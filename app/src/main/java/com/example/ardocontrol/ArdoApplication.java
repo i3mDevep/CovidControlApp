@@ -3,9 +3,11 @@ package com.example.ardocontrol;
 import android.app.Application;
 
 public class ArdoApplication extends Application {
+
     private String idCompany;
     private String idSubCompany;
     private String displayName;
+    private String email;
 
     public String getEmail() {
         return email;
@@ -14,8 +16,6 @@ public class ArdoApplication extends Application {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    private String email;
 
     public String getDisplayName() {
         return displayName;

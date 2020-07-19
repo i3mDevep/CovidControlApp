@@ -12,4 +12,6 @@
     <dimen name="swith_min_width">50dp</dimen>
     <dimen name="textview_displayname">15sp</dimen>
     <dimen name="textview_email">12sp</dimen>
+    <dimen name="textview_typeaction">14sp</dimen>
+    <dimen name="padding_form_user">10dp</dimen>
 </resources>

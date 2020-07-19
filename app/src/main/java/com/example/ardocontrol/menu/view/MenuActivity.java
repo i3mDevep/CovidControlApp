@@ -12,6 +12,7 @@ import com.example.ardocontrol.R;
 import com.example.ardocontrol.login.view.LoginActivity;
 import com.example.ardocontrol.menu.presenter.MenuActivityPresenter;
 import com.example.ardocontrol.menu.presenter.MenuActivityPresenterImpl;
+import com.example.ardocontrol.scanClients.view.ScanClientMainActivity;
 import com.example.ardocontrol.scanPeople.view.ScanPeopleActivity;
 
 public class MenuActivity extends AppCompatActivity implements MenuActivityView{
@@ -58,7 +59,8 @@ public class MenuActivity extends AppCompatActivity implements MenuActivityView{
        startActivity(intent);
    }
    public void scanUser(View view){
-
+       Intent intent = new Intent(this, ScanClientMainActivity.class);
+       startActivity(intent);
    }
     @Override
     public void onBackPressed() {
