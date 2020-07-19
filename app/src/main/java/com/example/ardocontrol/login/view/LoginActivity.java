@@ -1,6 +1,7 @@
 package com.example.ardocontrol.login.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,7 +51,11 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityVi
         if(!email.trim().equals("") && !password.trim().equals("")) {
             loginPresenter.signIn(email, password, this, firebaseAuth);
         } else {
-            Toast.makeText(getApplicationContext(), "Complete los campos !", Toast.LENGTH_SHORT).show();
+            SweetAlertDialog sweetdialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+            sweetdialog.setTitleText("Oops...");
+            sweetdialog.setContentText("Complete los campos !");
+            sweetdialog.show();
+            sweetdialog.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
     }
 
@@ -79,13 +84,17 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityVi
 
     @Override
     public void capturedErrorLogin(String err) {
-        Toast.makeText(getApplicationContext(),err, Toast.LENGTH_SHORT).show();
+        if(!err.equals("Sign in")){
+            Toast.makeText(getApplicationContext(),err, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    public void goMenu(String msg, String idCompany, String idSubCompany) {
+    public void goMenu(String msg, String idCompany, String idSubCompany, String name, String email) {
         ardoApplication.setIdCompany(idCompany);
         ardoApplication.setIdSubCompany(idSubCompany);
+        ardoApplication.setDisplayName(name);
+        ardoApplication.setEmail(email);
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);

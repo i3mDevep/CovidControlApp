@@ -28,9 +28,9 @@ public class LoginActivityPresenterImpl implements LoginActivityPresenter {
     }
 
     @Override
-    public void LoginSuccess(String msg, String idCompany, String idSubCompany) {
+    public void LoginSuccess(String msg, String idCompany, String idSubCompany, String name, String email) {
         loginActivityView.enableInputs();
-        loginActivityView.goMenu(msg, idCompany, idSubCompany);
+        loginActivityView.goMenu(msg, idCompany, idSubCompany, name, email);
         loginActivityView.showProgressBar(false);
     }
 

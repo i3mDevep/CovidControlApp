@@ -168,7 +168,7 @@
                             android:id="@+id/dropTemperature"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
+                            android:inputType="numberDecimal"
                             android:dropDownHeight="@dimen/height_dropdown_temperature"
                             android:hint="@string/hint_temperature_scan"
                             />

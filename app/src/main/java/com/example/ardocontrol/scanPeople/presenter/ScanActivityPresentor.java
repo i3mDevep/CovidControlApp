@@ -10,5 +10,5 @@ public interface ScanActivityPresentor {
     void successSetDataFirestore();
     void errorSetDataFirestore(String err);
     void errorGetDataFirebase(String err);
-    void sendTrackingWorker(String cc, boolean action, String temperature, GeoPoint loc);
+    void sendTrackingWorker(String cc, boolean action, String temperature, GeoPoint loc, String address);
 }

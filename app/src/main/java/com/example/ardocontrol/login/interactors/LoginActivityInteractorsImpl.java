@@ -40,7 +40,9 @@ public class LoginActivityInteractorsImpl implements LoginActivityInteractors {
                             } catch (Exception e){
                                 String companyID = (String) getTokenResult.getClaims().get("companyId");
                                 String subCompanyId = (String) getTokenResult.getClaims().get("user_id");
-                                loginActivityPresenter.LoginSuccess("Welcome!!!",companyID, subCompanyId);
+                                String name = (String) getTokenResult.getClaims().get("name");
+                                String email = (String) getTokenResult.getClaims().get("email");
+                                loginActivityPresenter.LoginSuccess("Welcome!!!",companyID, subCompanyId, name, email);
                             }
                         }
                     });
@@ -56,7 +58,7 @@ public class LoginActivityInteractorsImpl implements LoginActivityInteractors {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()){
-                    loginActivityPresenter.LoginError("No fue posible iniciar sesion");
+                    loginActivityPresenter.LoginError(task.getException().getMessage());
                 }
             }
         });

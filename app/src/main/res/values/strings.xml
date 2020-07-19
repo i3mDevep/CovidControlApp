@@ -23,4 +23,6 @@
     <string name="hint_type_scan">Seleccion Accion</string>
     <string name="swith_type_in">Entrada</string>
     <string name="swith_type_out">Salida</string>
+    <string name="title_scanpeopleactivity">Registro de empleados</string>
+    <string name="copyrigth">© 2014 Ardobot Robótica SAS</string>
 </resources>

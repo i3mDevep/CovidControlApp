@@ -10,4 +10,6 @@
     <dimen name="lector_heigh">340dp</dimen>
     <dimen name="height_dropdown_temperature">120dp</dimen>
     <dimen name="swith_min_width">50dp</dimen>
+    <dimen name="textview_displayname">15sp</dimen>
+    <dimen name="textview_email">12sp</dimen>
 </resources>

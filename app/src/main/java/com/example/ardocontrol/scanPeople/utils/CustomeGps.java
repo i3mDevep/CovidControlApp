@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -55,11 +54,6 @@ public class CustomeGps {
                 super.onLocationResult(locationResult);
                 Location location = locationResult.getLastLocation();
                 setLocation(location);
-                if(location!= null){
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    //Toast.makeText(activity,String.valueOf(latitude) + "  real " + String.valueOf(longitude),Toast.LENGTH_SHORT).show();
-                }
             }
         };
         locationManager = (LocationManager) activity.getSystemService(activity.LOCATION_SERVICE);

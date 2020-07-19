@@ -3,8 +3,12 @@ package com.example.ardocontrol.scanPeople.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +28,9 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
@@ -127,11 +134,19 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
     }
     public void sendInfo(View view){
         Location location = customeGps.getLocation();
-        if(location!= null){
+        if(location != null){
             GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-            presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString(), geoPoint);
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                List<Address>  addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                presentor.sendTrackingWorker(identification.getText().toString(), selectAction.isChecked(), temperature.getText().toString(), geoPoint, addresses.get(0).getAddressLine(0));
+
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "No fue posible extraer una direccion para esas coordenadas", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }else{
-            Toast.makeText(getApplicationContext(), "Pai sino nos da permiso no podemos coger la posicion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "No tenemos permisos para acceder a la posicion actual del gps", Toast.LENGTH_SHORT).show();
         }
     }
     public  void cancel(View view){
@@ -151,7 +166,10 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
     @Override
     public void errorRead(String err) {
-        Toast.makeText(getApplicationContext(),err,Toast.LENGTH_SHORT).show();
+        new SweetAlertDialog(ScanPeopleActivity.this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(err)
+                .show();
     }
 
     @Override
@@ -189,7 +207,9 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
     @Override
     public void successSendDataFirestore(String msg) {
-        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+        new SweetAlertDialog(ScanPeopleActivity.this)
+                .setTitleText(msg)
+                .show();
     }
 
     @Override

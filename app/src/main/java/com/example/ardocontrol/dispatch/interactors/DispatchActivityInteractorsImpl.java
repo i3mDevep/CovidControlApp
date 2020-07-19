@@ -34,9 +34,12 @@ public class DispatchActivityInteractorsImpl implements DispatchActivityInteract
                                firebaseAuth.signOut();
                                dispatchActivityPresentor.goLogin();
                            } catch (Exception e){
+                               Log.d("CLAIMS", String.valueOf(getTokenResult.getClaims()));
                                String companyID = (String) getTokenResult.getClaims().get("companyId");
+                               String name = (String) getTokenResult.getClaims().get("name");
+                               String email = (String) getTokenResult.getClaims().get("email");
                                String subCompanyId = (String) getTokenResult.getClaims().get("user_id");
-                               dispatchActivityPresentor.goMenu(companyID, subCompanyId);
+                               dispatchActivityPresentor.goMenu(companyID, subCompanyId, name, email);
                            }
                        }
                    });

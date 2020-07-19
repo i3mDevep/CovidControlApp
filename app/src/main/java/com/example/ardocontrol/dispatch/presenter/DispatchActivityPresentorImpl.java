@@ -23,8 +23,8 @@ public class DispatchActivityPresentorImpl implements DispatchActivityPresentor 
     }
 
     @Override
-    public void goMenu(String idCompany, String idSubCompany) {
-        dispatchActivityView.goMenu(idCompany, idSubCompany);
+    public void goMenu(String idCompany, String idSubCompany, String name, String email) {
+        dispatchActivityView.goMenu(idCompany, idSubCompany, name, email);
     }
 
     @Override

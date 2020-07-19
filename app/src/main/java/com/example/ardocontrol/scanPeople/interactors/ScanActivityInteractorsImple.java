@@ -54,7 +54,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     }
 
     @Override
-    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature, GeoPoint loc) {
+    public void sendDataFirebase(String cc, boolean action, final String idCompany, final String idSubCompany, String temperature, GeoPoint loc, String address) {
 
         if (temperature.equals("")) {
             scanActivityPresentor.errorSetDataFirestore("Selecciona un valor de temperatura!");
@@ -69,6 +69,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
         data.put("time", FieldValue.serverTimestamp());
         data.put("temperature", temperature);
         data.put("position",loc);
+        data.put("address", address);
 
         db = FirebaseFirestore.getInstance();
         String ref = "business/" + idCompany + "/subcompanies/" + idSubCompany + "/trakingworker";

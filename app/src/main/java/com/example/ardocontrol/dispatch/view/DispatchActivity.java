@@ -56,9 +56,11 @@ public class DispatchActivity extends AppCompatActivity implements DispatchActiv
     }
 
     @Override
-    public void goMenu(String idCompany, String idSubCompany) {
+    public void goMenu(String idCompany, String idSubCompany, String name, String email) {
         ardoApplication.setIdCompany(idCompany);
         ardoApplication.setIdSubCompany(idSubCompany);
+        ardoApplication.setDisplayName(name);
+        ardoApplication.setEmail(email);
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
