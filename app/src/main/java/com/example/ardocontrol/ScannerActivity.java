@@ -1,4 +1,4 @@
-package com.example.ardocontrol.scanPeople.view;
+package com.example.ardocontrol;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

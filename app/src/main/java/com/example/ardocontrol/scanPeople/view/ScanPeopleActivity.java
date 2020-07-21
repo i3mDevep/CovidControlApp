@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.R;
+import com.example.ardocontrol.ScannerActivity;
 import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentorImpl;

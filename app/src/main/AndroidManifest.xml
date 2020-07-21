@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".scanClients.view.ScanClientMainActivity" android:label="@string/title_scanclietactivity"></activity>
-        <activity android:name=".scanPeople.view.ScannerActivity" />
+        <activity android:name=".ScannerActivity" />
         <activity
             android:name=".dispatch.view.DispatchActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

@@ -14,7 +14,7 @@
     <string name="hint_identification_scan">Identificacion</string>
     <string name="hint_celphone_scan">Celular</string>
     <string name="hint_gender_scan">Genero</string>
-    <string name="hint_temperature_scan">Seleccion Temperatura</string>
+    <string name="hint_temperature_scan">Seleccione temperatura</string>
     <string name="btn_scan_get">Leer Doc</string>
     <string name="btn_scan_cancel">Cancelar</string>
     <string name="btn_scan_send">Enviar</string>
@@ -36,6 +36,8 @@
     <string name="quest6"> * ¿Realizó cambio de la ropa de trabajo tal como se le ha indicado en los protocolos? </string>
     <string name="quest7"> * ¿Durante las últimas 24 horas ha asistido a algún centro de atención o EPS? </string>
     <string name="title_scanclietactivity">Registro de clientes</string>
+    <string name="formtemperature">Temperatura</string>
+    <string name="formage">Edad</string>
     <string-array name="quest2_data">
         <item>Fiebre</item>
         <item>Tos</item>
