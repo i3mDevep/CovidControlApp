@@ -1,4 +1,4 @@
-package com.example.ardocontrol.scanPeople.utils;
+package com.example.ardocontrol;
 
 import android.Manifest;
 import android.app.Activity;

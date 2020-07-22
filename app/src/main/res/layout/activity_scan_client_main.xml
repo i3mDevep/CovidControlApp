@@ -172,7 +172,76 @@
                     android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/formaddress"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="8pt"/>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/caddrees"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                app:boxBackgroundColor="@color/editColorWhite"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:boxStrokeColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingStart="@dimen/keyline_4"
+                android:paddingEnd="@dimen/keyline_4"
+                app:layout_constraintTop_toBottomOf="@+id/card_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingrese su direccion de residencia"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/formcellphone"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="8pt"/>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ccellphone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                app:boxBackgroundColor="@color/editColorWhite"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:boxStrokeColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingStart="@dimen/keyline_4"
+                android:paddingEnd="@dimen/keyline_4"
+                app:layout_constraintTop_toBottomOf="@+id/card_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_cellphone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingrese un numero de contacto"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,7 +307,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cquest1" />
                 <Button
-                    android:id="@+id/btn_send_doc"
+                    android:id="@+id/btn_send_doc_client"
                     android:enabled="false"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
@@ -250,6 +319,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/btn_scan_send"
+                    android:onClick="clickSendInfo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cquest1" />
             </LinearLayout>

@@ -51,6 +51,7 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
 
     @Override
     public void errorSetDataFirestore(String err) {
+        scanPeopleActivityView.enableButtonSend();
         scanPeopleActivityView.showProgressBar(false);
         scanPeopleActivityView.errorRead(err);
     }
@@ -64,6 +65,7 @@ public class ScanActivityPresentorImpl implements ScanActivityPresentor {
 
     @Override
     public void sendTrackingWorker(String cc, boolean action, String temperature, GeoPoint loc, String address) {
+        scanPeopleActivityView.disableButtonSend();
         String[] ids = scanPeopleActivityView.getIds();
         scanPeopleActivityView.showProgressBar(true);
         scanActivityInteractors.sendDataFirebase(cc, action, ids[0], ids[1], temperature, loc, address);

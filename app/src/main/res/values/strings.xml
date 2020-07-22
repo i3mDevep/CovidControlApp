@@ -38,6 +38,8 @@
     <string name="title_scanclietactivity">Registro de clientes</string>
     <string name="formtemperature">Temperatura</string>
     <string name="formage">Edad</string>
+    <string name="formaddress">Direccion</string>
+    <string name="formcellphone">Celular</string>
     <string-array name="quest2_data">
         <item>Fiebre</item>
         <item>Tos</item>

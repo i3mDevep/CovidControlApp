@@ -16,16 +16,43 @@ public class ScanClientActivityPresenterImpl implements ScanClientActivityPresen
 
     @Override
     public void processDataRead(String content) {
-        clientActivityInteractor.proccessReadDoc(content);
+        clientActivityView.enableDialog();
+        String[] ids = clientActivityView.getIds();
+        clientActivityInteractor.proccessReadDoc(content, ids);
     }
 
     @Override
     public void successReadDoc(String[] info) {
+        clientActivityView.disableDialog();
         clientActivityView.successReadDoc(info);
     }
 
     @Override
     public void errorReadDoc(String err) {
+        clientActivityView.disableDialog();
+        clientActivityView.errorReadDoc(err);
+    }
 
+    @Override
+    public void errorSendData(String err) {
+        clientActivityView.disableDialog();
+        clientActivityView.enableBtnSend();
+        clientActivityView.errorSendData(err);
+    }
+
+    @Override
+    public void successSendData() {
+        clientActivityView.disableDialog();
+        clientActivityView.enableBtnSend();
+        clientActivityView.clearTexts();
+        clientActivityView.successSendData();
+    }
+
+    @Override
+    public void sendDataFirebase(String name, String identification, String temperature, String age, String address, String gender, String readGps,  String cellphone) {
+        clientActivityView.enableDialog();
+        clientActivityView.disableBtnSend();
+        String[] ids = clientActivityView.getIds();
+        clientActivityInteractor.sendDataFirebase(ids[0], ids[1], name, identification, temperature, age, address, gender, readGps, cellphone);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.ardocontrol.scanClients.interactors;
 
 public interface ScanClientActivityInteractor {
-    void proccessReadDoc(String scan);
+    void proccessReadDoc(String scan, String[] ids);
+    void sendDataFirebase(String idCompany, String idSubCompany, String name, String identification, String temperature, String age, String address, String gender, String readGps, String cellphone);
+
 }

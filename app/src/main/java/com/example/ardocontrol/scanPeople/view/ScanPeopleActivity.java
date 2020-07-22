@@ -26,7 +26,7 @@ import com.example.ardocontrol.ScannerActivity;
 import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentor;
 import com.example.ardocontrol.scanPeople.presenter.ScanActivityPresentorImpl;
-import com.example.ardocontrol.scanPeople.utils.CustomeGps;
+import com.example.ardocontrol.CustomeGps;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
