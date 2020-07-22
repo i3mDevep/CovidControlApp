@@ -110,7 +110,10 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
                 .setCaptureActivity(ScannerActivity.class)
                 .initiateScan();
     }
-    public  void clickSendInfo(View view){
+    public void clickSearch(View view){
+        activityPresentor.searhClient(identification.getText().toString());
+    }
+    public void clickSendInfo(View view){
         Location location = customeGps.getLocation();
         if(location != null){
             Geocoder geocoder = new Geocoder(this);
@@ -138,10 +141,14 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
     public void successReadDoc(String[] data) {
         identification.setText(data[0]);
         name.setText(data[1]);
-        gender.setSelection(data[2] == "Hombre"? 1: 0);
         age.setText(data[3]);
         address.setText(data[4]);
         celphone.setText(data[5]);
+        if(data[2].equals("Hombre")){
+            gender.setSelection(1);
+        } else {
+            gender.setSelection(0);
+        }
     }
 
     @Override

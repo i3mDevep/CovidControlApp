@@ -40,6 +40,7 @@
     <string name="formage">Edad</string>
     <string name="formaddress">Direccion</string>
     <string name="formcellphone">Celular</string>
+    <string name="btn_scan_search">Buscar</string>
     <string-array name="quest2_data">
         <item>Fiebre</item>
         <item>Tos</item>

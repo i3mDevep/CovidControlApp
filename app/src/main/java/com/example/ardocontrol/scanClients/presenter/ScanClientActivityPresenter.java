@@ -6,5 +6,6 @@ public interface ScanClientActivityPresenter {
     void errorReadDoc(String err);
     void errorSendData(String err);
     void successSendData();
+    void searhClient(String identification);
     void sendDataFirebase(String name, String identification, String temperature, String age, String address, String gender, String readGps, String cellphone);
 }

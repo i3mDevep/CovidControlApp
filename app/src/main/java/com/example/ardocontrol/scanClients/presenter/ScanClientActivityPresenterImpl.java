@@ -49,6 +49,13 @@ public class ScanClientActivityPresenterImpl implements ScanClientActivityPresen
     }
 
     @Override
+    public void searhClient(String identification) {
+        String idCompany = clientActivityView.getIds()[0];
+        clientActivityView.enableDialog();
+        clientActivityInteractor.searchClient(idCompany, identification);
+    }
+
+    @Override
     public void sendDataFirebase(String name, String identification, String temperature, String age, String address, String gender, String readGps,  String cellphone) {
         clientActivityView.enableDialog();
         clientActivityView.disableBtnSend();

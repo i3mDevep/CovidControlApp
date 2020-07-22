@@ -293,7 +293,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cquest1" />
                 <Button
-                    android:id="@+id/btn_cancel"
+                    android:id="@+id/btn_search"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="41dp"
@@ -303,7 +303,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/btn_scan_cancel"
+                    android:text="@string/btn_scan_search"
+                    android:onClick="clickSearch"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cquest1" />
                 <Button

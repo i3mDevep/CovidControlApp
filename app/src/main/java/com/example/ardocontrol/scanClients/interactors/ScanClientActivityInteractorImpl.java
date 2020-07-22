@@ -94,7 +94,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                     age_ = "";
                 }
                 db = FirebaseFirestore.getInstance();
-                final String ref = "business/" + idCompany + "/clients/" + identification;
+                final String ref = "business/" + idCompany + "/clients/" + String.valueOf(idInt);
                 final String finalName = Name;
                 final String finalGender = Gender;
                 final String finalAge_ = age_;
@@ -108,7 +108,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                                         String [] result = new String[] {
                                                 document.get("identification").toString(),
                                                 document.get("name").toString(),
-                                                finalGender,
+                                                document.get("gender").toString(),
                                                 document.get("age").toString(),
                                                 document.get("address").toString(),
                                                 document.get("cellphone").toString(),
@@ -162,6 +162,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
 
 
         db = FirebaseFirestore.getInstance();
+
         final String ref = "business/" + idCompany + "/clients/" + identification;
         db.document(ref).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -209,6 +210,43 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                     }
                 });
 
+    }
+
+    @Override
+    public void searchClient(String idCompany, String identification) {
+
+        if(identification.equals("")){
+            scanClientActivityPresenter.errorReadDoc("Ingresa cedula!");
+            return;
+        }
+
+        db = FirebaseFirestore.getInstance();
+        String ref = "business/" + idCompany + "/clients/" + identification;
+        db.document(ref).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String [] result = new String[] {
+                                        document.get("identification").toString(),
+                                        document.get("name").toString(),
+                                        document.get("gender").toString(),
+                                        document.get("age").toString(),
+                                        document.get("address").toString(),
+                                        document.get("cellphone").toString(),
+                                };
+                                scanClientActivityPresenter.successReadDoc(result);
+                            }
+                            else {
+                                scanClientActivityPresenter.errorReadDoc("No se encontro esta cedula  en la base de datos");
+                            }
+                        } else {
+                            scanClientActivityPresenter.errorReadDoc("Sucedio un error en la busqueda");
+                        }
+                    }
+                });
     }
 
 }
