@@ -11,6 +11,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +24,7 @@ import com.example.ardocontrol.ArdoApplication;
 import com.example.ardocontrol.CustomeGps;
 import com.example.ardocontrol.R;
 import com.example.ardocontrol.ScannerActivity;
+import com.example.ardocontrol.menu.view.MenuActivity;
 import com.example.ardocontrol.scanClients.presenter.ScanClientActivityPresenter;
 import com.example.ardocontrol.scanClients.presenter.ScanClientActivityPresenterImpl;
 import com.example.ardocontrol.scanPeople.view.ScanPeopleActivity;
@@ -66,6 +70,25 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
         ardoApplication = (ArdoApplication) getApplicationContext();
 
         customeGps = new CustomeGps(this);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btn_back:
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        return true;
     }
     @Override
     protected void onResume() {

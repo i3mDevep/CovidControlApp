@@ -11,6 +11,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -103,6 +106,25 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         customeGps = new CustomeGps(this);
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btn_back:
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        return true;
+    }
 
     @Override
     protected void onResume() {
@@ -165,11 +187,6 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
             Toast.makeText(getApplicationContext(), "No tenemos permisos para acceder a la posicion actual del gps", Toast.LENGTH_SHORT).show();
         }
     }
-    public  void cancel(View view){
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void enableButtonSend() {
         btnsend.setEnabled(true);

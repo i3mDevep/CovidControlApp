@@ -68,20 +68,32 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
 
             try {
                 final int idInt = Integer.parseInt(identification.trim());
-                String Name =  ThirdFilter[1].split(String.valueOf(idInt))[1];
+
+                String Name =  "";
+                int posInit = 0;
+                for(int i= 1; i <  6; i++) {
+                    if(ThirdFilter[i].indexOf(String.valueOf(idInt)) != -1){
+                        Name = ThirdFilter[i].split(String.valueOf(idInt))[1];
+                        posInit = i;
+                        break;
+                    }
+                }
                 String Date = "";
                 String Gender = "";
-                for (int i = 2; i <  6; i++){
+                for (int i = 2 + posInit; i <  6 + posInit; i++){
                     String firtCaracter = ThirdFilter[i].substring(0, 1);
                     if(!isNumeric(firtCaracter)){
                         Name = Name + " " + ThirdFilter[i];
                     }else {
                         if(ThirdFilter[i].charAt(1) == 'M'){
                             Gender = "Hombre";
+                            Date = ThirdFilter[i].split(String.valueOf(ThirdFilter[i].charAt(1)))[1].substring(0,8);
+                            break;
                         }else if(ThirdFilter[i].charAt(1) == 'F'){
                             Gender = "Mujer";
+                            Date = ThirdFilter[i].split(String.valueOf(ThirdFilter[i].charAt(1)))[1].substring(0,8);
+                            break;
                         }
-                        Date = ThirdFilter[i].split(String.valueOf(ThirdFilter[i].charAt(1)))[1].substring(0,8);
                     }
                 }
                 String age_;
@@ -94,7 +106,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                     age_ = "";
                 }
                 db = FirebaseFirestore.getInstance();
-                final String ref = "business/" + idCompany + "/clients/" + String.valueOf(idInt);
+                final String ref = "business/" + idCompany + "/clients/" + idInt;
                 final String finalName = Name;
                 final String finalGender = Gender;
                 final String finalAge_ = age_;
@@ -127,7 +139,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                         });
 
             } catch (Exception e){
-                scanClientActivityPresenter.errorReadDoc("this action was not possible");
+                scanClientActivityPresenter.errorReadDoc("No fue posible extraer los datos de tu documento");
             }
         }else{
             scanClientActivityPresenter.errorReadDoc("format not allow!");

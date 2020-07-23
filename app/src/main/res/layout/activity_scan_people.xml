@@ -217,21 +217,7 @@
                         android:onClick="readDoc"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cquest1" />
-                    <Button
-                        android:id="@+id/btn_cancel"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="41dp"
-                        android:textColor="@color/primaryDarkColor"
-                        android:paddingStart="@dimen/keyline_4"
-                        android:paddingEnd="@dimen/keyline_4"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/btn_scan_cancel"
-                        android:onClick="cancel"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cquest1" />
+
                     <Button
                         android:id="@+id/btn_send_doc"
                         android:enabled="false"
