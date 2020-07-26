@@ -80,7 +80,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                 }
                 String Date = "";
                 String Gender = "";
-                for (int i = 2 + posInit; i <  6 + posInit; i++){
+                for (int i = 1 + posInit; i <  6 + posInit; i++){
                     String firtCaracter = ThirdFilter[i].substring(0, 1);
                     if(!isNumeric(firtCaracter)){
                         Name = Name + " " + ThirdFilter[i];
