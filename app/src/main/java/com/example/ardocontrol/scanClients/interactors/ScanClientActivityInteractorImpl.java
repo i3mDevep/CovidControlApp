@@ -171,6 +171,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
         contentTracking.put("gps", readGps);
         contentTracking.put("time", FieldValue.serverTimestamp());
         contentTracking.put("identification", identification);
+        contentTracking.put("idSubcompany", idSubCompany);
 
 
         db = FirebaseFirestore.getInstance();
