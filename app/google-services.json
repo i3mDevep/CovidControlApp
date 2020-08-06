@@ -39,7 +39,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:855483457097:android:bc196014b6e793a8e4a998",
         "android_client_info": {
-          "package_name": "com.example.ardocontrol"
+          "package_name": "com.ardobot.ardocontrol"
         }
       },
       "oauth_client": [
@@ -68,7 +68,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:855483457097:android:fdea1fc4a48586a4e4a998",
         "android_client_info": {
-          "package_name": "com.example.shubham.demo"
+          "package_name": "com.ardobot.shubham.demo"
         }
       },
       "oauth_client": [
