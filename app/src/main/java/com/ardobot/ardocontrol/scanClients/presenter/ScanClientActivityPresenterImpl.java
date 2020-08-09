@@ -56,10 +56,10 @@ public class ScanClientActivityPresenterImpl implements ScanClientActivityPresen
     }
 
     @Override
-    public void sendDataFirebase(String name, String identification, String temperature, String age, String address, String gender, String readGps,  String cellphone) {
+    public void sendDataFirebase(String name, String identification, String temperature, String birth, String address, String gender, String readGps,  String cellphone,  String cause) {
         clientActivityView.enableDialog();
         clientActivityView.disableBtnSend();
         String[] ids = clientActivityView.getIds();
-        clientActivityInteractor.sendDataFirebase(ids[0], ids[1], name, identification, temperature, age, address, gender, readGps, cellphone);
+        clientActivityInteractor.sendDataFirebase(ids[0], ids[1], name, identification, temperature, birth, address, gender, readGps, cellphone, cause);
     }
 }

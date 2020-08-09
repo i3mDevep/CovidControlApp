@@ -7,5 +7,5 @@ public interface ScanClientActivityPresenter {
     void errorSendData(String err);
     void successSendData();
     void searhClient(String identification);
-    void sendDataFirebase(String name, String identification, String temperature, String age, String address, String gender, String readGps, String cellphone);
+    void sendDataFirebase(String name, String identification, String temperature, String birth, String address, String gender, String readGps, String cellphone, String cause);
 }

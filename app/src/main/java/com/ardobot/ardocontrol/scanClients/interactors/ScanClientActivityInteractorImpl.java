@@ -10,9 +10,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 
@@ -96,20 +100,17 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                         }
                     }
                 }
-                String age_;
+                String birth_;
                 try {
-                    int Year = Integer.parseInt(Date.substring(0, 4));
-                    int Month = Integer.parseInt(Date.substring(4, 6));
-                    int Day = Integer.parseInt(Date.substring(6, 8));
-                    age_ = getAge(Year,Month,Day);
+                    birth_= Date.substring(6, 8) + "/" + Date.substring(4, 6) + "/" + Date.substring(0, 4);
                 } catch (Exception err){
-                    age_ = "";
+                    birth_ = "dd/mm/yyyy";
                 }
                 db = FirebaseFirestore.getInstance();
                 final String ref = "business/" + idCompany + "/clients/" + idInt;
                 final String finalName = Name;
                 final String finalGender = Gender;
-                final String finalAge_ = age_;
+                final String finalBirth_ = birth_;
                 db.document(ref).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -117,22 +118,23 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
+                                        SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
                                         String [] result = new String[] {
                                                 document.get("identification").toString(),
                                                 document.get("name").toString(),
                                                 document.get("gender").toString(),
-                                                document.get("age").toString(),
+                                                simpleFormat.format(document.getTimestamp("birth").toDate()),
                                                 document.get("address").toString(),
                                                 document.get("cellphone").toString(),
                                         };
                                         scanClientActivityPresenter.successReadDoc(result);
                                     }
                                     else {
-                                        String [] result = new String[]{String.valueOf(idInt), finalName, finalGender, finalAge_, "", ""};
+                                        String [] result = new String[]{String.valueOf(idInt), finalName, finalGender, finalBirth_, "", ""};
                                         scanClientActivityPresenter.successReadDoc(result);
                                     }
                                 } else {
-                                    String [] result = new String[]{String.valueOf(idInt), finalName, finalGender, finalAge_, "", ""};
+                                    String [] result = new String[]{String.valueOf(idInt), finalName, finalGender, finalBirth_, "", ""};
                                     scanClientActivityPresenter.successReadDoc(result);
                                 }
                             }
@@ -147,18 +149,25 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
     }
 
     @Override
-    public void sendDataFirebase(String idCompany, String idSubCompany, String name, String identification, String temperature, String age, String address, String gender, String readGps, String cellphone) {
+    public void sendDataFirebase(String idCompany, String idSubCompany, String name, String identification, String temperature, String birth, String address, String gender, String readGps, String cellphone, String cause) {
 
-        if(name.equals("") || identification.equals("") || temperature.equals("") || age.equals("") || address.equals("") || gender.equals("") || readGps.equals("") || cellphone.equals("") ){
+        if(name.equals("") || identification.equals("") || temperature.equals("") || birth.equals("") || address.equals("") || gender.equals("") || readGps.equals("") || cellphone.equals("") || cause.equals("")){
             scanClientActivityPresenter.errorSendData("Completa todos los campos!");
+            return;
+        }
+        Calendar date;
+        try {
+            String[] mybirth = birth.split("/");
+            date = new GregorianCalendar(Integer.parseInt(mybirth[2]), Integer.parseInt(mybirth[1]) - 1, Integer.parseInt(mybirth[0]));
+        } catch (Exception e){
+            scanClientActivityPresenter.errorSendData("El formato de la fecha no es valido!");
             return;
         }
 
         final Map<String, Object> content = new HashMap<>();
         content.put("name", name);
         content.put("identification", identification);
-        content.put("temperature", temperature);
-        content.put("age", age);
+        content.put("birth", new Date(date.getTimeInMillis()));
         content.put("address", address);
         content.put("gender", gender);
         content.put("gps", readGps);
@@ -171,6 +180,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
         contentTracking.put("gps", readGps);
         contentTracking.put("time", FieldValue.serverTimestamp());
         contentTracking.put("identification", identification);
+        contentTracking.put("cause", cause);
         contentTracking.put("idSubcompany", idSubCompany);
 
 
@@ -242,11 +252,12 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+                                SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
                                 String [] result = new String[] {
                                         document.get("identification").toString(),
                                         document.get("name").toString(),
                                         document.get("gender").toString(),
-                                        document.get("age").toString(),
+                                        simpleFormat.format(document.getTimestamp("birth").toDate()),
                                         document.get("address").toString(),
                                         document.get("cellphone").toString(),
                                 };

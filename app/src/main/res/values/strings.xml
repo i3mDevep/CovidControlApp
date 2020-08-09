@@ -41,6 +41,9 @@
     <string name="formaddress">Direccion</string>
     <string name="formcellphone">Celular</string>
     <string name="btn_scan_search">Buscar</string>
+    <string name="select_date">Selecciona fecha</string>
+    <string name="formborn">Fecha de nacimiento</string>
+    <string name="formcause">Motivo</string>
     <string-array name="quest2_data">
         <item>Fiebre</item>
         <item>Tos</item>

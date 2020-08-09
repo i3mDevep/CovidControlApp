@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,11 +29,17 @@ import com.ardobot.ardocontrol.menu.view.MenuActivity;
 import com.ardobot.ardocontrol.scanClients.presenter.ScanClientActivityPresenter;
 import com.ardobot.ardocontrol.scanClients.presenter.ScanClientActivityPresenterImpl;
 import com.ardobot.ardocontrol.scanPeople.view.ScanPeopleActivity;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ScanClientMainActivity extends AppCompatActivity implements ScanClientActivityView {
 
@@ -40,13 +47,15 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
 
     private ScanClientActivityPresenter activityPresentor;
 
-    private EditText name, identification, age, address, celphone, temperature;
+    private EditText name, identification, address, celphone, temperature, cause;
     private Spinner gender;
     private LoadingClient loadingClient;
-    private Button btn_send;
+    private Button btn_send, birth;
 
     private ArdoApplication ardoApplication;
     private CustomeGps customeGps;
+
+    private MaterialDatePicker<Long> picker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +64,32 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
 
         name = (EditText) findViewById(R.id.text_name);
         identification = (EditText) findViewById(R.id.document);
-        age = (EditText) findViewById(R.id.age);
+        birth = (Button) findViewById(R.id.btn_born);
         address = (EditText) findViewById(R.id.address);
         celphone = (EditText) findViewById(R.id.text_cellphone);
         gender = (Spinner) findViewById(R.id.gender_options);
         temperature = (EditText) findViewById(R.id.dropTemperature);
+        cause = (EditText) findViewById(R.id.cause);
+
         btn_send = (Button) findViewById(R.id.btn_send_doc_client);
         btn_send.setEnabled(true);
+
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText(R.string.select_date);
+        picker = builder.build();
+
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+
+                TimeZone timeZoneUTC = TimeZone.getDefault();
+                int offsetFromUTC = timeZoneUTC.getOffset(new Date().getTime()) * -1;
+
+                SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date(selection + offsetFromUTC);
+                birth.setText(simpleFormat.format(date));
+            }
+        });
 
         loadingClient = new LoadingClient(this);
 
@@ -71,6 +99,7 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
 
         customeGps = new CustomeGps(this);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -127,6 +156,9 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
             Toast.makeText(getApplicationContext(), "Error this message is null", Toast.LENGTH_LONG).show();
         }
     }
+    public void openDatePicker(View view){
+        picker.show(getSupportFragmentManager(), picker.toString());
+    }
     public void clickReadDoc(View view){
         new IntentIntegrator(this)
                 .setOrientationLocked(false)
@@ -146,11 +178,12 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
                         name.getText().toString(),
                         identification.getText().toString(),
                         temperature.getText().toString(),
-                        age.getText().toString(),
+                        birth.getText().toString(),
                         address.getText().toString(),
                         gender.getSelectedItem().toString(),
                         addresses.get(0).getAddressLine(0),
-                        celphone.getText().toString()
+                        celphone.getText().toString(),
+                        cause.getText().toString()
                         );
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), "No fue posible extraer una direccion para esas coordenadas", Toast.LENGTH_SHORT).show();
@@ -164,7 +197,7 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
     public void successReadDoc(String[] data) {
         identification.setText(data[0]);
         name.setText(data[1]);
-        age.setText(data[3]);
+        birth.setText(data[3]);
         address.setText(data[4]);
         celphone.setText(data[5]);
         if(data[2].equals("Hombre")){
@@ -178,15 +211,22 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
     public void clearTexts() {
         identification.setText("");
         name.setText("");
-        age.setText("");
+        birth.setText("");
         address.setText("");
         celphone.setText("");
         temperature.setText("");
+        cause.setText("");
     }
 
     @Override
     public void errorReadDoc(String err) {
         Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
+        name.setText("");
+        birth.setText("");
+        address.setText("");
+        celphone.setText("");
+        temperature.setText("");
+        cause.setText("");
     }
 
     @Override

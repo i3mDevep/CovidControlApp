@@ -141,17 +141,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/formage"
+                    android:text="@string/formcause"
                     android:textColor="@color/primaryDarkColor"
-                    android:textSize="8pt"/>
+                    android:textSize="8pt" />
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cage"
+                android:id="@+id/ccause"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 app:boxBackgroundColor="@color/editColorWhite"
@@ -165,13 +164,39 @@
                 app:layout_constraintTop_toBottomOf="@+id/card_title">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/age"
+                    android:id="@+id/cause"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingrese su edad actual"
-                    android:inputType="numberSigned" />
+                    android:hint="Motivo de ingreso"
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/formborn"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="8pt"/>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/padding_form_user"
+                android:id="@+id/btn_born"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/editColorWhite"
+                android:textColorHighlight="@color/editColorWhite"
+                android:textColorHint="@color/editColorWhite"
+                app:backgroundTint="@color/primaryDarkColor"
+                android:hint="DD/MM/YYYY"
+                android:padding="@dimen/padding_form_user"
+                android:onClick="openDatePicker"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
