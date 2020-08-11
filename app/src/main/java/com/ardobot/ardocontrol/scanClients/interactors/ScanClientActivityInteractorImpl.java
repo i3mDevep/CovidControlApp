@@ -105,7 +105,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                 String birth_;
                 try {
                     birth_= Date.substring(6, 8) + "/" + Date.substring(4, 6) + "/" + Date.substring(0, 4);
-                } catch (Exception err){10/10/2099
+                } catch (Exception err){
                     birth_ = "dd/mm/yyyy";
                 }
                 db = FirebaseFirestore.getInstance();
