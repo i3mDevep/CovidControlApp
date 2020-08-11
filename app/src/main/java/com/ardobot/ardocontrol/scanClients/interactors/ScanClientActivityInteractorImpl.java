@@ -1,5 +1,7 @@
 package com.ardobot.ardocontrol.scanClients.interactors;
 
+import android.util.Log;
+
 import com.ardobot.ardocontrol.scanClients.presenter.ScanClientActivityPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -103,7 +105,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                 String birth_;
                 try {
                     birth_= Date.substring(6, 8) + "/" + Date.substring(4, 6) + "/" + Date.substring(0, 4);
-                } catch (Exception err){
+                } catch (Exception err){10/10/2099
                     birth_ = "dd/mm/yyyy";
                 }
                 db = FirebaseFirestore.getInstance();
@@ -119,11 +121,17 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                        String birth = "10/10/2099";
+                                        try {
+                                            birth = simpleFormat.format(document.getTimestamp("birth").toDate());
+                                        } catch (Exception e){
+                                            Log.e("ERROR_FORMAT", "Error search",  e);
+                                        }
                                         String [] result = new String[] {
                                                 document.get("identification").toString(),
                                                 document.get("name").toString(),
                                                 document.get("gender").toString(),
-                                                simpleFormat.format(document.getTimestamp("birth").toDate()),
+                                                birth,
                                                 document.get("address").toString(),
                                                 document.get("cellphone").toString(),
                                         };
@@ -253,11 +261,18 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                String birth = "10/10/2099";
+                                try {
+                                    birth = simpleFormat.format(document.getTimestamp("birth").toDate());
+                                } catch (Exception e){
+                                    Log.e("ERROR_FORMAT", "Error search",  e);
+                                }
+
                                 String [] result = new String[] {
                                         document.get("identification").toString(),
                                         document.get("name").toString(),
                                         document.get("gender").toString(),
-                                        simpleFormat.format(document.getTimestamp("birth").toDate()),
+                                        birth,
                                         document.get("address").toString(),
                                         document.get("cellphone").toString(),
                                 };
