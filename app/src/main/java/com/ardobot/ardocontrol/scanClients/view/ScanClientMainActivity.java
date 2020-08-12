@@ -2,9 +2,10 @@ package com.ardobot.ardocontrol.scanClients.view;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -12,13 +13,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ardobot.ardocontrol.ArdoApplication;
@@ -28,14 +32,13 @@ import com.ardobot.ardocontrol.ScannerActivity;
 import com.ardobot.ardocontrol.menu.view.MenuActivity;
 import com.ardobot.ardocontrol.scanClients.presenter.ScanClientActivityPresenter;
 import com.ardobot.ardocontrol.scanClients.presenter.ScanClientActivityPresenterImpl;
-import com.ardobot.ardocontrol.scanPeople.view.ScanPeopleActivity;
+
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -259,16 +262,30 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
 
     @Override
     public void errorSendData(String err) {
-        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
-                .setContentText(err)
-                .show();
+        showCustomErrorDialog(err);
     }
-
+    private void showCustomErrorDialog(String err) {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.my_dialog_error, viewGroup, false);
+        TextView error = (TextView) dialogView.findViewById(R.id.text_error);
+        error.setText(err);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     @Override
     public void successSendData() {
-        new SweetAlertDialog(this)
-                .setTitleText("Registro exitoso!")
-                .show();
+        showCustomSuccessDialog("Operacion completada con exito");
+    }
+    private void showCustomSuccessDialog(String msg) {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.my_dialog, viewGroup, false);
+        TextView success = (TextView) dialogView.findViewById(R.id.text_success);
+        success.setText(msg);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

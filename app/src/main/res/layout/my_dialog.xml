@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_form_user"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/primaryDarkColor">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_baseline_emoji_emotions_24" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Satisfecho!!"
+        android:textAlignment="center"
+        style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:id="@+id/text_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Esta operacion fue completada con exito"
+        android:textAlignment="center"
+        />
+
+</LinearLayout>

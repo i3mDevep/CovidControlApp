@@ -2,19 +2,22 @@ package com.ardobot.ardocontrol.scanPeople.view;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -199,12 +202,18 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
     @Override
     public void errorRead(String err) {
-        new SweetAlertDialog(ScanPeopleActivity.this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
-                .setContentText(err)
-                .show();
+        showCustomErrorDialog(err);
     }
-
+    private void showCustomErrorDialog(String err) {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.my_dialog_error, viewGroup, false);
+        TextView error = (TextView) dialogView.findViewById(R.id.text_error);
+        error.setText(err);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     @Override
     public void successRead(String data) {
         identification.setText(data);
@@ -240,11 +249,18 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
     @Override
     public void successSendDataFirestore(String msg) {
-        new SweetAlertDialog(ScanPeopleActivity.this)
-                .setTitleText(msg)
-                .show();
+        showCustomSuccessDialog(msg);
     }
-
+    private void showCustomSuccessDialog(String msg) {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.my_dialog, viewGroup, false);
+        TextView success = (TextView) dialogView.findViewById(R.id.text_success);
+        success.setText(msg);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     @Override
     public String[] getIds() {
         String idCompany = ardoApplication.getIdCompany();

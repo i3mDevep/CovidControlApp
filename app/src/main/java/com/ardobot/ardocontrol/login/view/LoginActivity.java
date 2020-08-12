@@ -1,13 +1,16 @@
 package com.ardobot.ardocontrol.login.view;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ardobot.ardocontrol.ArdoApplication;
@@ -51,14 +54,19 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityVi
         if(!email.trim().equals("") && !password.trim().equals("")) {
             loginPresenter.signIn(email, password, this, firebaseAuth);
         } else {
-            SweetAlertDialog sweetdialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
-            sweetdialog.setTitleText("Oops...");
-            sweetdialog.setContentText("Complete los campos !");
-            sweetdialog.show();
-            sweetdialog.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            showCustomErrorDialog();
         }
     }
-
+    private void showCustomErrorDialog() {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.my_dialog_error, viewGroup, false);
+        TextView error = (TextView) dialogView.findViewById(R.id.text_error);
+        error.setText("Debes completar todos los campos");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     @Override
     public void enableInputs() {
         edtEmail.setEnabled(true);
