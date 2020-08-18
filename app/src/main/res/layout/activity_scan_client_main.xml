@@ -168,6 +168,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Motivo de ingreso"
+                    android:text="@string/default_cause"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -229,6 +230,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ingrese su direccion de residencia"
+                    android:text="@string/default_address"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>

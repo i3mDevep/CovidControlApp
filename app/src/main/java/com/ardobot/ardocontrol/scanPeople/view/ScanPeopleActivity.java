@@ -37,6 +37,10 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.microblink.entities.recognizers.RecognizerBundle;
+import com.microblink.entities.recognizers.blinkbarcode.barcode.BarcodeRecognizer;
+import com.microblink.uisettings.ActivityRunner;
+import com.microblink.uisettings.BarcodeUISettings;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,6 +49,11 @@ import java.util.List;
 public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleActivityView {
 
     private static final int PERMISSION_FINE_LOCATION = 99;
+    private static final int MY_REQUEST_CODE = 1337;
+
+    private BarcodeRecognizer mBarcodeRecognizer;
+
+    private RecognizerBundle mRecognizerBundle;
 
     private TextView textType;
     private EditText address, name, identification, gender, cellphone, temperature;
@@ -108,6 +117,12 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
         customeGps = new CustomeGps(this);
 
+        //pdf417//
+        mBarcodeRecognizer = new BarcodeRecognizer();
+        mBarcodeRecognizer.setScanPdf417(true);
+        mBarcodeRecognizer.setScanQrCode(true);
+
+        mRecognizerBundle = new RecognizerBundle(mBarcodeRecognizer);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -152,7 +167,7 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
                 break;
         }
     }
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -166,12 +181,27 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
         }else{
             Toast.makeText(getApplicationContext(), "Error this message is null", Toast.LENGTH_LONG).show();
         }
+    }*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            handleScanResultIntent(data);
+        }
+    }
+    private void handleScanResultIntent(Intent data) {
+        mRecognizerBundle.loadFromIntent(data);
+        BarcodeRecognizer.Result result = mBarcodeRecognizer.getResult();
+        presentor.processDataRead(result.getStringData());
     }
     public void readDoc(View view){
-        new IntentIntegrator(this)
-                .setOrientationLocked(false)
-                .setCaptureActivity(ScannerActivity.class)
-                .initiateScan();
+//        new IntentIntegrator(this)
+//                .setOrientationLocked(false)
+//                .setCaptureActivity(ScannerActivity.class)
+//                .initiateScan();
+        BarcodeUISettings uiSettings = new BarcodeUISettings(mRecognizerBundle);
+        uiSettings.setBeepSoundResourceID(R.raw.beep);
+        ActivityRunner.startActivityForResult(this, MY_REQUEST_CODE, uiSettings);
     }
     public void sendInfo(View view){
         Location location = customeGps.getLocation();

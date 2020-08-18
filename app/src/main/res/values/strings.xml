@@ -64,4 +64,9 @@
         <item>Mujer</item>
         <item>Hombre</item>
     </string-array>
+
+    <string name="UseWith">Use with</string>
+    <string name="default_cause">Posible compra</string>
+    <string name="default_address">Direccion desconocida</string>
+
 </resources>

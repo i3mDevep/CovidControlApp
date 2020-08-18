@@ -7,8 +7,8 @@ android {
         applicationId "com.ardobot.ardocontrol"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 3
-        versionName "3"
+        versionCode 9
+        versionName "9"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,6 +40,10 @@ dependencies {
 
     //gps //
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    implementation('com.microblink:pdf417.mobi:7.2.1@aar') {
+        transitive = true
+    }
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

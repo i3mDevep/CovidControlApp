@@ -14,4 +14,9 @@
     <dimen name="textview_email">12sp</dimen>
     <dimen name="textview_typeaction">14sp</dimen>
     <dimen name="padding_form_user">10dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="tv_version_top_margin">10dp</dimen>
+
 </resources>

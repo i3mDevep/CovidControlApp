@@ -37,6 +37,10 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.microblink.entities.recognizers.RecognizerBundle;
+import com.microblink.entities.recognizers.blinkbarcode.barcode.BarcodeRecognizer;
+import com.microblink.uisettings.ActivityRunner;
+import com.microblink.uisettings.BarcodeUISettings;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -47,6 +51,11 @@ import java.util.TimeZone;
 public class ScanClientMainActivity extends AppCompatActivity implements ScanClientActivityView {
 
     private static final int PERMISSION_FINE_LOCATION = 99;
+    private static final int MY_REQUEST_CODE = 1337;
+
+    private BarcodeRecognizer mBarcodeRecognizer;
+
+    private RecognizerBundle mRecognizerBundle;
 
     private ScanClientActivityPresenter activityPresentor;
 
@@ -101,6 +110,13 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
         ardoApplication = (ArdoApplication) getApplicationContext();
 
         customeGps = new CustomeGps(this);
+
+        //pdf417//
+        mBarcodeRecognizer = new BarcodeRecognizer();
+        mBarcodeRecognizer.setScanPdf417(true);
+        mBarcodeRecognizer.setScanQrCode(true);
+
+        mRecognizerBundle = new RecognizerBundle(mBarcodeRecognizer);
     }
 
     @Override
@@ -145,7 +161,7 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
                 break;
         }
     }
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -158,15 +174,28 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
         }else{
             Toast.makeText(getApplicationContext(), "Error this message is null", Toast.LENGTH_LONG).show();
         }
+    }*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            handleScanResultIntent(data);
+        }
+    }
+    private void handleScanResultIntent(Intent data) {
+        mRecognizerBundle.loadFromIntent(data);
+        BarcodeRecognizer.Result result = mBarcodeRecognizer.getResult();
+        activityPresentor.processDataRead(result.getStringData());
+
+        //Toast.makeText(getApplicationContext(), result.getStringData(),Toast.LENGTH_SHORT).show();
     }
     public void openDatePicker(View view){
         picker.show(getSupportFragmentManager(), picker.toString());
     }
     public void clickReadDoc(View view){
-        new IntentIntegrator(this)
-                .setOrientationLocked(false)
-                .setCaptureActivity(ScannerActivity.class)
-                .initiateScan();
+        BarcodeUISettings uiSettings = new BarcodeUISettings(mRecognizerBundle);
+        uiSettings.setBeepSoundResourceID(R.raw.beep);
+        ActivityRunner.startActivityForResult(this, MY_REQUEST_CODE, uiSettings);
     }
     public void clickSearch(View view){
         activityPresentor.searhClient(identification.getText().toString());
@@ -215,10 +244,10 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
         identification.setText("");
         name.setText("");
         birth.setText("");
-        address.setText("");
+        address.setText(R.string.default_address);
         celphone.setText("");
         temperature.setText("");
-        cause.setText("");
+        cause.setText(R.string.default_cause);
     }
 
     @Override
