@@ -230,7 +230,11 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
         identification.setText(data[0]);
         name.setText(data[1]);
         birth.setText(data[3]);
-        address.setText(data[4]);
+        if(data[4].equals("")){
+            address.setText(R.string.default_address);
+        }else{
+            address.setText(data[4]);
+        }
         celphone.setText(data[5]);
         if(data[2].equals("Hombre")){
             gender.setSelection(1);

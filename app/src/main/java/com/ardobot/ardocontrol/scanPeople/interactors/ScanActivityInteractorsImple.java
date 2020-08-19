@@ -29,6 +29,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     @Override
     public void processData(String data) {
         String scanContent = data;
+        String a = scanContent.substring(12,13);
         if (scanContent.indexOf("PubDSK_") != -1) {
 
             String[] OneFilter = scanContent.split("PubDSK_");
@@ -42,7 +43,15 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
             }catch (Exception e){
                 scanActivityPresentor.processError("this action was not possible");
             }
-        } else if(scanContent.indexOf("qrardobot") != -1){
+        } else if(a.equals("A")){
+            String[] ThirdFilter = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
+            String SecondFilter = ThirdFilter[2];
+            String [] id = SecondFilter.split("[a-zA-Z]");;
+            String num = id[0].substring(id[0].length() - 10);
+            int Ident = Integer.parseInt(num);
+            scanActivityPresentor.processSuccess(String.valueOf(Ident));
+        }
+        else if(scanContent.indexOf("qrardobot") != -1){
             String[] OneFilter = scanContent.split(",,");
             scanContent = OneFilter[2];
             String[] SecondFilter = scanContent.split(",");
