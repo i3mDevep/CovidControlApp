@@ -107,8 +107,6 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
 
         activityPresentor = new ScanClientActivityPresenterImpl(this);
 
-        ardoApplication = (ArdoApplication) getApplicationContext();
-
         customeGps = new CustomeGps(this);
 
         //pdf417//
@@ -142,6 +140,7 @@ public class ScanClientMainActivity extends AppCompatActivity implements ScanCli
     protected void onResume() {
         super.onResume();
         customeGps.isLocationEnabled();
+        ardoApplication = (ArdoApplication) getApplicationContext();
     }
     @Override
     protected void onPause() {

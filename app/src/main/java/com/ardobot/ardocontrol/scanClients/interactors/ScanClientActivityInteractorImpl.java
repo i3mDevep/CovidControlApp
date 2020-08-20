@@ -62,16 +62,26 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
 
         String scanContent = scan;
         String idCompany = ids[0];
-        String a = scanContent.substring(12,13);
+        char character = scanContent.charAt(12);
 
-        if (scanContent.indexOf("PubDSK_") != -1 ) {
+        if (scanContent.indexOf("PubDSK_") != -1 || Character.isLetter(character)) {
 
-            String[] OneFilter = scanContent.split("PubDSK_");
-            scanContent = OneFilter[1];
-            String[] SecondFilter = scanContent.split("[a-zA-Z]");
-            String[] ThirdFilter = OneFilter[1].replaceAll("^\\s+","").split("[^\\w]+");
-            scanContent = SecondFilter[0];
-            String identification = scanContent.substring(17, scanContent.length());
+            String[] ThirdFilter = {};
+            String identification="";
+
+            if(scanContent.indexOf("PubDSK_") != -1){
+                String[] OneFilter = scanContent.split("PubDSK_");
+                scanContent = OneFilter[1];
+                String[] SecondFilter = scanContent.split("[a-zA-Z]");
+                ThirdFilter = OneFilter[1].replaceAll("^\\s+","").split("[^\\w]+");
+                scanContent = SecondFilter[0];
+                identification = scanContent.substring(17, scanContent.length());
+            }else{
+                ThirdFilter = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
+                String SecondFilter = ThirdFilter[2];
+                String [] id = SecondFilter.split("[a-zA-Z]");;
+                identification = id[0].substring(id[0].length() - 10);
+            }
 
             try {
                 final int idInt = Integer.parseInt(identification.trim());
@@ -153,7 +163,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                 scanClientActivityPresenter.errorReadDoc("No fue posible extraer los datos de tu documento");
             }
         }
-        else if(a.equals("A")){
+        else if(false){
 
             String[] ThirdFilter = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
             String SecondFilter = ThirdFilter[2];

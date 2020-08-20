@@ -99,8 +99,6 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
 
         loadingScan = new LoadingScan(this);
 
-        ardoApplication = (ArdoApplication) getApplicationContext();
-
         double[] items = new double[70];
         String[] cast_items = new String[69];
         items[0] = 28.0;
@@ -148,6 +146,7 @@ public class ScanPeopleActivity extends AppCompatActivity implements ScanPeopleA
     protected void onResume() {
         super.onResume();
         customeGps.isLocationEnabled();
+        ardoApplication = (ArdoApplication) getApplicationContext();
     }
     @Override
     protected void onPause() {
