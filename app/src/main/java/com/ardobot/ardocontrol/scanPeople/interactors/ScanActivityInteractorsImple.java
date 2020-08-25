@@ -29,9 +29,17 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
     @Override
     public void processData(String data) {
         String scanContent = data;
-        char character = scanContent.charAt(12);
+        char character = 49;
+        try {
+            character = scanContent.charAt(12);
+        }
+        catch (Exception e){
+            scanActivityPresentor.processError("Documento no valido!");
+            return;
+        }
+        String [] firtSCC = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
 
-        if (scanContent.indexOf("PubDSK_") != -1 || Character.isLetter(character)) {
+        if (scanContent.indexOf("PubDSK_") != -1 ||  (Character.isLetter(character) && firtSCC[0].length() == 13)) {
 
             String identification="";
 
@@ -52,7 +60,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
                 int idInt = Integer.parseInt(identification.trim());
                 scanActivityPresentor.processSuccess(String.valueOf(idInt));
             }catch (Exception e){
-                scanActivityPresentor.processError("this action was not possible");
+                scanActivityPresentor.processError("no fue posible convertir la cedula!");
             }
         }
         else if(scanContent.indexOf("qrardobot") != -1){
@@ -63,7 +71,7 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
             scanActivityPresentor.processSuccess(scanContent);
         }
         else {
-            scanActivityPresentor.processError("Format not allow!");
+            scanActivityPresentor.processError("Formato no permitido!");
         }
     }
 
@@ -131,10 +139,10 @@ public class ScanActivityInteractorsImple implements ScanActivityInteractors {
                                 String data[] = new String[]{name + " " + lastname, cellphone, gender, address};
                                 scanActivityPresentor.successGetDataFirebase(data);
                             } else {
-                                scanActivityPresentor.errorGetDataFirebase("No such document");
+                                scanActivityPresentor.errorGetDataFirebase("Este empleado no se encuentra registrado!");
                             }
                         } else {
-                            scanActivityPresentor.errorGetDataFirebase("get failed with ");
+                            scanActivityPresentor.errorGetDataFirebase("Error desconocido contacta al desarrollador!");
                         }
                     }
                 });

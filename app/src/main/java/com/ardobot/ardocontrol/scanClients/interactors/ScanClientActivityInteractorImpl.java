@@ -62,9 +62,18 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
 
         String scanContent = scan;
         String idCompany = ids[0];
-        char character = scanContent.charAt(12);
+        char character = 49;
+        try {
+            character = scanContent.charAt(12);
+        }
+        catch (Exception e){
+            scanClientActivityPresenter.errorReadDoc("Documento no valido!");
+            return;
+        }
+        String [] firtSCC = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
 
-        if (scanContent.indexOf("PubDSK_") != -1 || Character.isLetter(character)) {
+
+        if (scanContent.indexOf("PubDSK_") != -1 || (Character.isLetter(character) && firtSCC[0].length() == 13)) {
 
             String[] ThirdFilter = {};
             String identification="";
@@ -76,7 +85,7 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                 ThirdFilter = OneFilter[1].replaceAll("^\\s+","").split("[^\\w]+");
                 scanContent = SecondFilter[0];
                 identification = scanContent.substring(17, scanContent.length());
-            }else{
+            } else{
                 ThirdFilter = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
                 String SecondFilter = ThirdFilter[2];
                 String [] id = SecondFilter.split("[a-zA-Z]");;
@@ -163,95 +172,8 @@ public class ScanClientActivityInteractorImpl implements ScanClientActivityInter
                 scanClientActivityPresenter.errorReadDoc("No fue posible extraer los datos de tu documento");
             }
         }
-        else if(false){
-
-            String[] ThirdFilter = scanContent.replaceAll("^\\s+","").split("[^\\w]+");
-            String SecondFilter = ThirdFilter[2];
-            String [] id = SecondFilter.split("[a-zA-Z]");;
-            String num = id[0].substring(id[0].length() - 10);
-
-            try {
-                final int idInt = Integer.parseInt(num.trim());
-
-                String Name =  "";
-                int posInit = 0;
-                for(int i= 1; i <  6; i++) {
-                    if(ThirdFilter[i].indexOf(String.valueOf(idInt)) != -1){
-                        Name = ThirdFilter[i].split(String.valueOf(idInt))[1];
-                        posInit = i;
-                        break;
-                    }
-                }
-                String Date = "";
-                String Gender = "";
-                for (int i = 1 + posInit; i <  6 + posInit; i++){
-                    String firtCaracter = ThirdFilter[i].substring(0, 1);
-                    if(!isNumeric(firtCaracter)){
-                        Name = Name + " " + ThirdFilter[i];
-                    }else {
-                        if(ThirdFilter[i].charAt(1) == 'M'){
-                            Gender = "Hombre";
-                            Date = ThirdFilter[i].split(String.valueOf(ThirdFilter[i].charAt(1)))[1].substring(0,8);
-                            break;
-                        }else if(ThirdFilter[i].charAt(1) == 'F'){
-                            Gender = "Mujer";
-                            Date = ThirdFilter[i].split(String.valueOf(ThirdFilter[i].charAt(1)))[1].substring(0,8);
-                            break;
-                        }
-                    }
-                }
-                String birth_;
-                try {
-                    birth_= Date.substring(6, 8) + "/" + Date.substring(4, 6) + "/" + Date.substring(0, 4);
-                } catch (Exception err){
-                    birth_ = "dd/mm/yyyy";
-                }
-                db = FirebaseFirestore.getInstance();
-                final String ref = "business/" + idCompany + "/clients/" + idInt;
-                final String finalName = Name;
-                final String finalGender = Gender;
-                final String finalBirth_ = birth_;
-                db.document(ref).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
-                                        String birth = "10/10/2099";
-                                        try {
-                                            birth = simpleFormat.format(document.getTimestamp("birth").toDate());
-                                        } catch (Exception e){
-                                            Log.e("ERROR_FORMAT", "Error search",  e);
-                                        }
-                                        String [] result = new String[] {
-                                                document.get("identification").toString(),
-                                                document.get("name").toString(),
-                                                document.get("gender").toString(),
-                                                birth,
-                                                document.get("address").toString(),
-                                                document.get("cellphone").toString(),
-                                        };
-                                        scanClientActivityPresenter.successReadDoc(result);
-                                    }
-                                    else {
-                                        String [] result = new String[]{String.valueOf(idInt), finalName, finalGender, finalBirth_, "", ""};
-                                        scanClientActivityPresenter.successReadDoc(result);
-                                    }
-                                } else {
-                                    String [] result = new String[]{String.valueOf(idInt), finalName, finalGender, finalBirth_, "", ""};
-                                    scanClientActivityPresenter.successReadDoc(result);
-                                }
-                            }
-                        });
-
-            } catch (Exception e){
-                scanClientActivityPresenter.errorReadDoc("No fue posible extraer los datos de tu documento");
-            }
-        }
-        else{
-            scanClientActivityPresenter.errorReadDoc("format not allow!");
+        else {
+            scanClientActivityPresenter.errorReadDoc("Formato no permitido!");
         }
     }
 
